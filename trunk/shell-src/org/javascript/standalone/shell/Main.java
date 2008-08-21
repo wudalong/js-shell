@@ -47,8 +47,9 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.MalformedURLException;
 import java.util.*;
+
+import org.javascript.standalone.tools.ToolErrorReporter;
 import org.mozilla.javascript.*;
-import org.mozilla.javascript.tools.ToolErrorReporter;
 
 /**
  * The shell program.
@@ -583,20 +584,7 @@ public class Main
 
         InputStream is = null;
         int capacityHint = 0;
-        if (url == null) {
-            File file = new File(path);
-            capacityHint = (int)file.length();
-            try {
-                is = new FileInputStream(file);
-            } catch (IOException ex) {
-                Context.reportError(ToolErrorReporter.getMessage(
-                    "msg.couldnt.open", path));
-                return null;
-            }
-        } else {
-        	is = loadAsResource(path);
-        }
-        if(is == null) {
+        if (url != null) {
             try {
                 URLConnection uc = url.openConnection();
                 is = uc.getInputStream();
@@ -608,6 +596,27 @@ public class Main
             } catch (IOException ex) {
                 Context.reportError(ToolErrorReporter.getMessage(
                     "msg.couldnt.open.url", url.toString(), ex.toString()));
+                return null;
+            }
+        } else if(path.indexOf('/') == -1){
+    		String library = path.replace('.', '/');
+    		library += ".js";
+    		is = Main.class.getClassLoader().getResourceAsStream(library);
+    		if (is == null){
+	            Context.reportError(ToolErrorReporter.getMessage(
+	                    "msg.couldnt.import.lib", path, library));
+	            return null;
+    		}
+        }
+        
+        if(is == null) {
+            File file = new File(path);
+            capacityHint = (int)file.length();
+            try {
+                is = new FileInputStream(file);
+            } catch (IOException ex) {
+                Context.reportError(ToolErrorReporter.getMessage(
+                    "msg.couldnt.open", path));
                 return null;
             }
         }
@@ -636,15 +645,6 @@ public class Main
             result = new String(data);
         }
         return result;
-    }
-    
-    private static InputStream loadAsResource(String file){
-    	if (file.indexOf('/') == -1){
-    		file = file.replace('.', '/');
-    		//file.replaceAll(arg0, arg1)
-    		//file.substring(arg0, arg1)
-    	}
-    	return null;
     }
 
 }
