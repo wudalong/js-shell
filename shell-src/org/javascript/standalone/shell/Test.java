@@ -1,4 +1,4 @@
-package org.mozilla.javascript.tools.shell;
+package org.javascript.standalone.shell;
 
 import java.io.InputStream;
 

@@ -36,7 +36,7 @@
  *
  * ***** END LICENSE BLOCK ***** */
 
-package org.mozilla.javascript.tools.shell;
+package org.javascript.standalone.shell;
 
 import org.mozilla.javascript.Context;
 
