@@ -43,7 +43,7 @@
         by Patrick C. Beard <beard@netscape.com>
  */
 
-package org.mozilla.javascript.tools.shell;
+package org.javascript.standalone.shell;
 
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptRuntime;

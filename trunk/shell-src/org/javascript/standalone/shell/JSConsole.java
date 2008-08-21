@@ -35,7 +35,7 @@
  * file under either the MPL or the GPL.
  *
  * ***** END LICENSE BLOCK ***** */
-package org.mozilla.javascript.tools.shell;
+package org.javascript.standalone.shell;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
