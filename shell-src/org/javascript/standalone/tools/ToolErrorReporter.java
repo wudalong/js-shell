@@ -37,7 +37,7 @@
  *
  * ***** END LICENSE BLOCK ***** */
 
-package org.mozilla.javascript.tools;
+package org.javascript.standalone.tools;
 
 import org.mozilla.javascript.*;
 
@@ -87,7 +87,7 @@ public class ToolErrorReporter implements ErrorReporter {
 
         // ResourceBundle does cacheing.
         ResourceBundle rb = ResourceBundle.getBundle
-            ("org.mozilla.javascript.tools.resources.Messages", locale);
+            ("org.javascript.standalone.resources.Messages", locale);
 
         String formatString;
         try {

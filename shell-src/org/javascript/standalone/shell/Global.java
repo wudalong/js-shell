@@ -47,8 +47,8 @@ import java.io.*;
 import java.net.*;
 import java.lang.reflect.*;
 
+import org.javascript.standalone.tools.ToolErrorReporter;
 import org.mozilla.javascript.*;
-import org.mozilla.javascript.tools.ToolErrorReporter;
 import org.mozilla.javascript.serialize.*;
 
 /**
@@ -130,22 +130,11 @@ public class Global extends ImporterTopLevel
             "sync",
             "toint32",
             "version",
+            "$import",
         };
         defineFunctionProperties(names, Global.class,
                                  ScriptableObject.DONTENUM);
         
-        
-        Method[] ms = Global.class.getMethods();
-        Method m = null;
-        for(int i=0; i<ms.length; i++){
-        	if(ms[i].getName() == "import_"){
-        		m = ms[i];
-        		break;
-        	}
-        }
-        FunctionObject f = new FunctionObject("import", m, this);
-        defineProperty("import", f, ScriptableObject.DONTENUM); 
-
         // Set up "environment" in the global scope to provide access to the
         // System environment variables.
         Environment.defineClass(this);
@@ -259,13 +248,13 @@ public class Global extends ImporterTopLevel
      * This method is defined as a JavaScript function.
      *
      */
-    public static void import_(Context cx, Scriptable thisObj,
+    public static void $import(Context cx, Scriptable thisObj,
                             Object[] args, Function funObj)
     {
         for (int i = 0; i < args.length; i++) {
             Main.processFile(cx, thisObj, Context.toString(args[i]));
         }
-    }    
+    }  
 
     /**
      * Load a Java class that defines a JavaScript object using the
