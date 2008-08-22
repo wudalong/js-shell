@@ -1,0 +1,8 @@
+#summary 历史版本说明
+
+# *js-shell-0.1.1* -- 2008-08-22 11:30
+  * 添加ANT构建脚本
+  * 更新启动脚本js.bat(win), js(linux)
+  * 添加JavaScript作为启动程序
+  * js-shell启动时默认加载Runtime library
+  * 增加了两个examples.
