@@ -1,0 +1,21 @@
+#项目的一些计划和想法
+
+= 长远梦想 =
+
+   希望可以实现一个新的开发平台, 集成一些其他语言的思路,开发一个类似Django的快速Web开发框架, 在表现层使用Ext-js. 这样可以使用ext-swing简单的将WEB应用移植到桌面程序. 就像JavaFx一样,不过使用的是很多人熟悉的javascript作脚本.
+   这还是一个长远的梦想, 现在的js-shell就像刚从浏览器,分娩出来的婴儿. 还是裸体呢, 从发育,成长,学习...还有很多路要走. 至少下面的内容是必须的.
+
+= 成长之路 =
+  
+   要让javascript独立运行还需要很多,周边的开发库,虽然可以使用java的实现,但是还是需要一些移植工作. 现在想到的列在下面. 欢迎大家可以自主创建新的项目, 或选择加入一个下面感兴趣的项目中, 然后告诉我们. 如果合适我们将把你列入js-shell的'官方'库. 
+ 
+  || 库名称 || 作者 || 状态 || 项目连接 || 描述 || 
+  || runtime || Deonwu || 开发中 || N/A || js-shell 运行时扩张接口 ||
+  || doc || N/A || 计划 || N/A || js-shell的API文档管理 ||
+  || unittest || N/A || 计划 || N/A || js 的单元测试框架 ||
+  || database || N/A || 计划 || N/A || js的数据库接口 ||
+  || logging || N/A || 计划 || N/A || 日志接口 ||
+  || XMLhttp || N/A || 计划 || N/A || 兼容XMLHttpRequest ||
+  || dom || N/A || 计划 || N/A || 兼容浏览器中的dom接口 ||
+  || ext-swing || Deonwu || 开发中 || http://code.google.com/p/ext-swing/ || 兼容Ext-js的swing版 ||
+  || net || N/A || 计划 || N/A || N/A ||
