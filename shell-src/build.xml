@@ -42,15 +42,12 @@ Requires Ant version 1.2
 
   <target name="properties">
     <property file="build.properties"/>
-    <property name="debugger"
-              value="org/mozilla/javascript/tools/debugger"/>
   </target>
 
   <target name="compile" depends="properties">
     <javac srcdir="toolsrc"
            destdir="${classes}"
            includes="org/**/*.java"
-           excludes="org/**/debugger/*.java"
            deprecation="on"
            debug="${debug}"
            target="${target-jvm}"
