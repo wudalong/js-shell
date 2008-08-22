@@ -22,3 +22,6 @@
 
   * *Q:项目有些什么规划呢*
   A:前面说了这个项目主目前还只是一个玩具．事实上没有什么计划, 不过有一点梦想．可以查看[todolist 一点梦想]
+
+  * *Q:项目有些什么交流方式*
+  A:QQ群:38343054, [http://groups.google.com/group/js-shell Google用户组]
