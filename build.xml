@@ -64,6 +64,9 @@
 		<mkdir dir="${build.dir}/docs"/>
 		<mkdir dir="${build.dir}/examples"/>
 		<mkdir dir="${build.dir}/bin"/>
+		
+		<mkdir dir="${dist.dir}"/>
+				
 	</target>
 
 	<target name="compile-shell" depends="properties, init">
@@ -101,9 +104,6 @@
 	</target>
   
 	<target name="jar" depends="jar-shell,jar-runtime">
-	</target>
-
-	<target name="dist" depends="jar">
 		<copy todir="${build.dir}/bin">
 			<fileset dir="conf/scripts" />
 		</copy>
@@ -111,9 +111,17 @@
 			<fileset dir="examples" />
 		</copy>
 		<copy file="lib/js.jar" todir="${build.dir}/lib"/>
-		<copy file="${build.dir}/classes/JavaScript.class" todir="${build.dir}/bin"/>
-		
-		<zip destfile="js-shell-${version}.zip" basedir="${build.dir}" excludes="classes/**">
+		<copy file="${build.dir}/classes/JavaScript.class" todir="${build.dir}/bin"/>		
+	</target>
+
+	<target name="dist" depends="jar">
+		<copy todir="${dist.dir}/">
+			<fileset dir="${build.dir}" >
+				<exclude name="${dist.name}/**"/>
+				<exclude name="classes/**"/>
+			</fileset>
+		</copy>
+		<zip destfile="js-shell-${version}.zip" basedir="${build.dir}" includes="${dist.name}\**">
 		</zip>
 	</target>
 
