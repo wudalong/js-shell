@@ -6,3 +6,15 @@
   * 添加JavaScript作为启动程序
   * js-shell启动时默认加载Runtime library
   * 增加了两个examples.
+
+1.一个调用Swing的例子:
+
+http://js-shell.googlecode.com/svn/tags/js-shell-0.1/screen-shoot/swing.jpg
+
+2.Cygwin下运行Helloword:
+
+http://js-shell.googlecode.com/svn/tags/js-shell-0.1/screen-shoot/sygwin.jpg
+
+3.Runtime自动被加载:
+
+http://js-shell.googlecode.com/svn/tags/js-shell-0.1/screen-shoot/runtime.jpg
