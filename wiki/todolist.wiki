@@ -2,8 +2,8 @@
 
 = 长远梦想 =
 
-  希望可以实现一个新的开发平台, 集成一些其他语言的思路,开发一个类似Django的快速Web开发框架, 在表现层使
-  用Ext-js. 这样可以使用ext-swing简单的将WEB应用移植到桌面程序. 就像JavaFx一样,不过使用的是很多人熟
+  希望可以实现一个新的开发平台, 集成一些其他语言的思路,开发一个类似[http://www.djangoproject.com/ Django]的快速Web开发框架, 在表现层使
+  用[http://www.extjs.com/ Ext-js]. 这样可以使用[http://code.google.com/p/ext-swing/ ext-swing]简单的将WEB应用移植到桌面程序. 就像JavaFx一样,不过使用的是很多人熟
   悉的javascript作脚本.
 
   这还是一个长远的梦想, 现在的js-shell就像刚从浏览器,分娩出来的婴儿. 还是裸体呢, 从发育,成长,学习...还
