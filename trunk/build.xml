@@ -69,12 +69,13 @@
 	<target name="compile-shell" depends="properties, init">
 		<javac srcdir="shell-src"
 			   destdir="${build.dir}/classes"
-			   includes="org/**/*.java"
+			   includes="**/*.java"
 			   deprecation="on"
 			   debug="${debug}"
 			   target="${target-jvm}"
 			   source="${source-level}"
 			   classpath="lib/js.jar"
+			   encoding="utf-8"
 		>
 		</javac>
 		<copy todir="${build.dir}/classes">
@@ -110,6 +111,7 @@
 			<fileset dir="examples" />
 		</copy>
 		<copy file="lib/js.jar" todir="${build.dir}/lib"/>
+		<copy file="${build.dir}/classes/JavaScript.class" todir="${build.dir}/bin"/>
 		
 		<zip destfile="js-shell-${version}.zip" basedir="${build.dir}" excludes="classes/**">
 		</zip>
@@ -121,7 +123,6 @@
 
   <target name="deepclean" depends="properties">
     <delete quiet="true" dir="${build.dir}"/>
-    <delete quiet="true" file="${dist.file}"/>
   </target>
 
   <target name="help" depends="properties">
