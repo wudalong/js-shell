@@ -24,3 +24,5 @@
 || dom || N/A || 计划 || N/A || 兼容浏览器中的dom接口 ||
 || ext-swing || Deonwu || 开发中 || [http://code.google.com/p/ext-swing Ext-Swing] || 兼容Ext-js的swing版 ||
 || net || N/A || 计划 || N/A || N/A ||
+
+[joinus 加入我们]　[feedback 建议想法]
