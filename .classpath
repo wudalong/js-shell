@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry excluding="shell-src/|shell-src/|lib/|script/|build/" kind="src" path=""/>
+	<classpathentry excluding="shell-src/|shell-src/|lib/|script/|build/|examples/|conf/scripts/|conf/" kind="src" path=""/>
 	<classpathentry kind="src" path="shell-src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/js.jar" sourcepath="/rhino1/src"/>

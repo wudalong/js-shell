@@ -1,0 +1,18 @@
+#!/bin/sh
+# -----------------------------------------------------------------------------
+#
+echo `dirname "$0"`
+# OS specific support.  
+JS_HOME=`dirname "$0"`
+JS_HOME=`dirname "$JS_HOME"`
+cygwin=false;
+case "`uname`" in
+  CYGWIN*) cygwin=true;;
+esac
+
+# For Cygwin, ensure paths are in UNIX format before anything is touched
+if $cygwin ; then
+	JS_HOME=`cygpath --windows "$JS_HOME"`
+fi
+
+java -classpath "$JS_HOME/bin" -DJS_HOME=$JS_HOME JavaScript $@

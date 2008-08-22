@@ -130,6 +130,7 @@ public class Main
      * execute scripts.
      */
     public static void main(String args[]) {
+    	fileList.add("Runtime");
         try {
             if (Boolean.getBoolean("rhino.use_java_policy_security")) {
                 initJavaPolicySecuritySupport();
@@ -598,11 +599,11 @@ public class Main
                     "msg.couldnt.open.url", url.toString(), ex.toString()));
                 return null;
             }
-        } else if(path.indexOf('/') == -1){
+        } else if(path.indexOf(java.io.File.separatorChar) == -1){
     		String library = path.replace('.', '/');
     		library += ".js";
     		is = Main.class.getClassLoader().getResourceAsStream(library);
-    		if (is == null){
+    		if (is == null && !path.endsWith(".js")){
 	            Context.reportError(ToolErrorReporter.getMessage(
 	                    "msg.couldnt.import.lib", path, library));
 	            return null;
