@@ -55,67 +55,67 @@
 	<property name="version" value="0.1"/>
 
   </target>
-  
-	<path id="js-lib">
-			<fileset dir="${lib.dir}">
-					<include name="*.jar" />
-			</fileset>
-	</path>
-  
 
-  <target name="init" depends="properties">
-    <mkdir dir="${build.dir}"/>
-	<mkdir dir="${build.dir}/classes"/>
-	<mkdir dir="${build.dir}/lib"/>
-    <mkdir dir="${dist.dir}"/>
-  </target>
+	<target name="init" depends="properties">
+		<mkdir dir="${build.dir}"/>
+		<mkdir dir="${build.dir}/classes"/>
+		<mkdir dir="${build.dir}/lib"/>
+		<mkdir dir="${build.dir}/lib/ext-lib"/>
+		<mkdir dir="${build.dir}/docs"/>
+		<mkdir dir="${build.dir}/examples"/>
+		<mkdir dir="${build.dir}/bin"/>
+	</target>
 
-  <target name="compile-shell" depends="properties, init">
-    <javac srcdir="shell-src"
-           destdir="${build.dir}/classes"
-           includes="org/**/*.java"
-           deprecation="on"
-           debug="${debug}"
-           target="${target-jvm}"
-           source="${source-level}"
-		   classpath="lib/js.jar"
-    >
-    </javac>
-    <copy todir="${classes}">
-      <fileset dir="shell-src" includes="org/**/*.properties" />
-    </copy>
-  </target>
+	<target name="compile-shell" depends="properties, init">
+		<javac srcdir="shell-src"
+			   destdir="${build.dir}/classes"
+			   includes="org/**/*.java"
+			   deprecation="on"
+			   debug="${debug}"
+			   target="${target-jvm}"
+			   source="${source-level}"
+			   classpath="lib/js.jar"
+		>
+		</javac>
+		<copy todir="${build.dir}/classes">
+			<fileset dir="shell-src" includes="org/**/*.properties" />
+		</copy>
+	</target>
   
 	<target name="jar-shell" depends="compile-shell">
-	<jar jarfile="${build.dir}/lib/standalone-${version}.jar"
-		 basedir="${build.dir}/classes"
-		 manifest="conf/manifest"
-		 compress="${jar-compression}"
-	 />
+		<jar jarfile="${build.dir}/lib/standalone-${version}.jar"
+			 basedir="${build.dir}/classes"
+			 manifest="conf/manifest"
+			 compress="${jar-compression}"
+		 />
 	</target>
   
 	<target name="jar-runtime" depends="properties">
-	<jar jarfile="${build.dir}/lib/runtime-${version}.jar"
-		 basedir="run-time-src"
-		 manifest="conf/manifest-runtime"
-		 excludes=".svn"
-		 compress="${jar-compression}"
-	 />
+		<jar jarfile="${build.dir}/lib/runtime-${version}.jar"
+			 basedir="run-time-src"
+			 manifest="conf/manifest-runtime"
+			 excludes=".svn"
+			 compress="${jar-compression}"
+		 />
 	</target>
   
 	<target name="jar" depends="jar-shell,jar-runtime">
 	</target>
 
-  <target name="dist" depends="jar">
-    <delete file="${dist.file}" />
-    <zip destfile="${dist.file}">
-      <fileset dir="${build.dir}" includes="${dist.name}/**"/>
-    </zip>
-  </target>
+	<target name="dist" depends="jar">
+		<copy todir="${build.dir}/bin">
+			<fileset dir="conf/scripts" />
+		</copy>
+		<copy todir="${build.dir}/examples">
+			<fileset dir="examples" />
+		</copy>
+		<copy file="lib/js.jar" todir="${build.dir}/lib"/>
+		
+		<zip destfile="js-shell-${version}.zip" basedir="${build.dir}" excludes="classes/**">
+		</zip>
+	</target>
 
   <target name="clean" depends="properties">
-    <delete quiet="true" file="${dist.dir}/${rhino.jar}"/>
-    <delete quiet="true" file="${dist.dir}/${small-rhino.jar}"/>
     <delete quiet="true" dir="${build.dir}"/>
   </target>
 
