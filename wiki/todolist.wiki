@@ -1,4 +1,5 @@
 #summary 项目的一些计划和想法
+#labels Featured
 
 = 长远梦想 =
 
