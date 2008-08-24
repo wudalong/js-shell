@@ -17,7 +17,7 @@
 = 成长之路 =
 || *库名称* || *作者*      || *状态*     || *项目名称* || *描述* || 
 || runtime || Deonwu || 开发中 || N/A || js-shell 运行时扩张接口 ||
-|| doc || N/A || 计划 || N/A || js-shell的API文档管理 ||
+|| doc || Deonwu  || 完成原型 || js-shell/jsdoc.js || js-shell的API文档管理 ||
 || unittest || N/A || 计划 || N/A || js 的单元测试框架 ||
 || database || N/A || 计划 || N/A || js的数据库接口 ||
 || logging || N/A || 计划 || N/A || 日志接口 ||
