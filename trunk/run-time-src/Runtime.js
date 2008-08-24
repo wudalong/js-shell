@@ -1,7 +1,10 @@
 
 /**
-* Ext core utilities and functions. Ext core utilities and functions.
-* Ext core utilities and functions.
+  ............................................................................
+  ............................................................................
+  ............................................................................
+  ............................................................................
+  
   @global
 */
 
@@ -12,7 +15,15 @@ function runtime(){
 }
 
 /**
-类似Python中的dir方法
+类似Python中的dir方法,返回对象的属性列表。
+    Example:
+<pre><code>
+    var person = {name:'deownu', age:'99'};
+    attr = dir(person);
+    print(attr); //result: name, age
+</code></pre>   
+
+@return Array
 */
 function dir(a) {
     var attr = []
@@ -24,19 +35,15 @@ function dir(a) {
 }
 
 /**
- * Applies event listeners to elements by selectors when the document is ready.
- * The event name is specified with an @ suffix.
+ * 使用fn遍历数组
   Example:
-  The event name is specified with an @ suffix.
 <pre><code>
-Ext.addBehaviors({
-   // add a listener for click on all anchors in element with id foo
-   '#foo a@click' : function(e, t){
-       // do something
-   }
-});
-</code></pre>
-         * @param {Object} obj The list of behaviors to apply
+    var person = {name:'deownu', age:'99'};
+    
+    each(dir(person), fn(e){
+        print(e + ":" + person[e]); //print the attr and value.
+    });
+</code></pre>    
          */
 function each(o1, fn2){
 	for(var i=0; i<o1.length; i++){
@@ -45,30 +52,16 @@ function each(o1, fn2){
 }
 
 /**
-* @class Http
-* Ext core utilities and functions. Ext core utilities and functions.
-* Ext core utilities and functions.
-*/
-Runtime.Http = {
-        /**
-         * Applies event listeners to elements by selectors when the document is ready.
-         * The event name is specified with an @ suffix.
-         
-		Example:
-		    test test test test test test test 
-			<code>
-			     var list = new Runtime.Http();
-			     list.test()
-			</code>
-
-         * @param {Object} obj The list of behaviors to apply
-         * @set test2
+ * 
+  Example:
+<pre><code>
+    var person = {name:'deownu', age:'99'};
+    
+    each(dir(person), fn(e){
+        print(e + ":" + person[e]); //print the attr and value.
+    });
+</code></pre>    
          */
-	test: function(){
-	   print("running Runtime.Http.test")
-	}
-}
-
 function dump(o) {
     print('{');
     each(o, function(e){

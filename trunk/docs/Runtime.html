@@ -8,31 +8,59 @@
 <h3>Global function</h3>
 <ul>
 <li><a href='#dir'>dir(a)</a></li>
+<li><a href='#dump'>dump(o)</a></li>
 <li><a href='#each'>each(o1, fn2)</a></li>
 </ul>
 <h3>Class List</h3>
 <ul>
-<li><a href='#cls_Http'>Http</a></li>
-<ul>
-<li><a href='#test'>test()</a></li>
-</ul>
 </ul>
 </div>
 <div class='content'>
 <div class='ctext'>
- Ext core utilities and functions. Ext core utilities and functions.
- Ext core utilities and functions.
+  ............................................................................
+  ............................................................................
+  ............................................................................
+  ............................................................................
+  
   </div>
 <div class='g_fun'><h3>Global function</h3>
 <div class='fn'>
 <div class='fn_sign'>
 <span class='fn_name'>dir</span>
 (<span class='fn_arg'>a</span>)
+&nbsp;return Array
+</div>
+<div class='ctext'>
+类似Python中的dir方法,返回对象的属性列表。
+    </div>
+<div class='example'><h4>Example:</h4>
+<pre><code>
+    var person = {name:'deownu', age:'99'};
+    attr = dir(person);
+    print(attr); //result: name, age
+</code></pre>   
+
+
+</div>
+</div>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>dump</span>
+(<span class='fn_arg'>o</span>)
 &nbsp;return none
 </div>
 <div class='ctext'>
-类似Python中的dir方法
-</div>
+ 
+  </div>
+<div class='example'><h4>Example:</h4>
+<pre><code>
+    var person = {name:'deownu', age:'99'};
+    
+    each(dir(person), fn(e){
+        print(e + ":" + person[e]); //print the attr and value.
+    });
+</code></pre>    
+         </div>
 </div>
 <div class='fn'>
 <div class='fn_sign'>
@@ -41,52 +69,17 @@
 &nbsp;return none
 </div>
 <div class='ctext'>
- Applies event listeners to elements by selectors when the document is ready.
- The event name is specified with an @ suffix.
+ 使用fn�??历数组
   </div>
 <div class='example'><h4>Example:</h4>
-  The event name is specified with an @ suffix.
 <pre><code>
-Ext.addBehaviors({
-   // add a listener for click on all anchors in element with id foo
-   '#foo a@click' : function(e, t){
-       // do something
-   }
-});
-</code></pre>
- 
+    var person = {name:'deownu', age:'99'};
+    
+    each(dir(person), fn(e){
+        print(e + ":" + person[e]); //print the attr and value.
+    });
+</code></pre>    
          </div>
-</div>
-</div>
-<div class='cls'><h3>Class Http</h3>
-<div class='ctext'>
- 
- Ext core utilities and functions. Ext core utilities and functions.
- Ext core utilities and functions.
-</div>
-<div class='pub_fn'><h3>Public method</h3>
-<div class='fn'>
-<div class='fn_sign'>
-<span class='fn_name'>test</span>
-(<span class='fn_arg'></span>)
-&nbsp;return none
-</div>
-<div class='ctext'>
- Applies event listeners to elements by selectors when the document is ready.
- The event name is specified with an @ suffix.
-         
-		</div>
-<div class='example'><h4>Example:</h4>
-		    test test test test test test test 
-			<code>
-			     var list = new Runtime.Http();
-			     list.test()
-			</code>
-
- 
- 
-         </div>
-</div>
 </div>
 </div>
 </div>
