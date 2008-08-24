@@ -258,6 +258,8 @@ function saveAsHtml(doc, out){
                   doc.file.o + 
                   "--doc</title>" +
                   "<link rel='stylesheet' href='screen.css' media='screen'>" +
+                  "<meta http-equiv='Content-Type'" +
+                  " content='text/html; charset=UTF-8' />" +
                   "</head><body><div>")
     //create left index.
     outputFileIndex(doc, out)
