@@ -256,7 +256,7 @@ function processJSFile(filename,inputdir)
 function saveAsHtml(doc, out){
     out.writeLine('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"')
     out.writeLine('"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">')
-    out.writeLine('<html dir="ltr" xmlns="http://www.w3.org/1999/xhtml">' +
+    out.writeLine('<html>' +
                   "<head><title>" + 
                   doc.file.o + 
                   "--doc</title>" +
