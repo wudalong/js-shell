@@ -1,19 +1,25 @@
 
 /**
+  ............................................................................
+  ............................................................................
+  ............................................................................
+  ............................................................................
+  
+  @global
+*/
+
+/**
 * @class File
-  文件操作类, 封装了java.io.File. 方法的一些简单的操作。
+  create file object.
+  
+  @param path
+  @param mode value:r/w, default is 'r'
 */
 var File = function(path, mode) {
 	this.o = new java.io.File(path);
 	this.mode = mode || 'r';
 	this.h = null;	
 }
-
-/**
-* Ext core utilities and functions. Ext core utilities and functions.
-* Ext core utilities and functions.
-  @global
-*/
 
 File.prototype = {
 	
@@ -24,15 +30,14 @@ File.prototype = {
 	*在文件中写入一行纪录.
 	 
 	Example:
+	    The file must in write mode.
 	   <pre>
 	    <code>
-	        必须以写方式打开一个文件
             var f = new File('test.js', 'w')
             f.writeLine('Hello world') 
             f.close() 
 	    </code>
 	    </pre>
-	 * @param {Object} 写入文件的内容，非String对象转换为String后写入.
 	 */
 	writeLine: function(s) {
 		if (this.mode != 'w') throw "the file isn't in write mode"
@@ -45,14 +50,14 @@ File.prototype = {
     *从文件中读入一行文本.
      
     Example:
-        <code>
+        <pre><code>
             //必须以读方式打开一个文件, 默认为'r'模式
             var f = new File('test.js', 'r')
             var line = f.readLine()
-            print(line) 
+            print(line)
             f.close() 
-        </code>
-     * @param {Object} 写入文件的内容，非String对象转换为String后写入.
+        </code><pre>
+     * @return String
      */
     readLine: function() {
         if (this.mode != 'r') throw "the file isn't in read mode"
