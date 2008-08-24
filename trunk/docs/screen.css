@@ -1,0 +1,97 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+html, body {
+	font-family: Arial;
+	font-size: 14px;
+	width:100%;
+	height:100%;
+	overflow:hidden;
+	color:#444444;
+	padding:0.8em;
+}
+* html, * body {
+	height: 99%;
+}
+
+h1 a img { border: none; }
+
+.fn{
+	margin-top: 10px;
+}
+
+.fn span.fn_name {
+	color: #cc33cc;
+}
+
+.fn span.fn_arg {
+	color: #666;
+}
+
+.cls {margin-top: 5px;}
+div.pub_fn{
+	margin-left: 30px;
+	margin-top: 5px;
+}
+
+div.example,div.ctext {
+	margin-left: 30px;
+	margin-top: 5px;
+}
+
+div.example {
+	border-top: 1px solid #DDD;
+	margin-top: 15px;
+}
+
+div.example h4 {
+	font-size: 16px;
+	margin: 10px 0 0 0;
+}
+
+div.example pre {
+	display:block;
+	color: #000;
+	background: #EEE;
+	padding: 5px;
+	font-size: 0.8em;
+}
+
+p.raw {
+	font-size: 11px;
+	color: #FFF;
+	margin: 5px auto;
+	width: 600px;
+	text-align: right;
+}
+
+p.raw a {
+	color: #FFF;
+}
+
+code {
+	font-size: 108%;
+	padding: 0pt;
+}
+
+div.fn_index{
+	float:left;
+	width:250px;
+	overflow-y: scroll;
+}
+
+div.fn_index ul{
+	margin-left:15px;
+}
+div.fn_index li{
+	margin-top:3px;
+}
+
+
+.content{
+	float:left;
+	margin-left:20px;
+}
+
