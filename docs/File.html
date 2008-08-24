@@ -1,0 +1,90 @@
+<html><head><title>run-time-src\File.js--doc</title><link rel='stylesheet' href='screen.css' media='screen'></head><body><div>
+<div class='fn_index'>
+<h3>File list</h3>
+<ul>
+<li><a href='File.html'>File.js</a>
+<li><a href='Runtime.html'>Runtime.js</a>
+</ul>
+<h3>Global function</h3>
+<ul>
+</ul>
+<h3>Class List</h3>
+<ul>
+<li><a href='#cls_File'>File</a></li>
+<ul>
+<li><a href='#close'>close()</a></li>
+<li><a href='#readLine'>readLine()</a></li>
+<li><a href='#writeLine'>writeLine(s)</a></li>
+</ul>
+</ul>
+</div>
+<div class='content'>
+<div class='ctext'>
+ Ext core utilities and functions. Ext core utilities and functions.
+ Ext core utilities and functions.
+  </div>
+<div class='g_fun'><h3>Global function</h3>
+</div>
+<div class='cls'><h3>Class File</h3>
+<div class='ctext'>
+ 
+  文件�?作类, �?装了java.io.File. 方法的一些简�?�的�?作。
+</div>
+<div class='pub_fn'><h3>Public method</h3>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>close</span>
+(<span class='fn_arg'></span>)
+&nbsp;return none
+</div>
+<div class='ctext'>
+      关闭已打开的文件.
+    </div>
+</div>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>readLine</span>
+(<span class='fn_arg'></span>)
+&nbsp;return none
+</div>
+<div class='ctext'>
+从文件中读入一行文本.
+     
+    </div>
+<div class='example'><h4>Example:</h4>
+        <code>
+            //必须以读方�?打开一个文件, 默认为'r'模�?
+            var f = new File('test.js', 'r')
+            var line = f.readLine()
+            print(line) 
+            f.close() 
+        </code>
+ 
+     </div>
+</div>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>writeLine</span>
+(<span class='fn_arg'>s</span>)
+&nbsp;return none
+</div>
+<div class='ctext'>
+在文件中写入一行纪录.
+	 
+	</div>
+<div class='example'><h4>Example:</h4>
+	   <pre>
+	    <code>
+	        必须以写方�?打开一个文件
+            var f = new File('test.js', 'w')
+            f.writeLine('Hello world') 
+            f.close() 
+	    </code>
+	    </pre>
+ 
+	 </div>
+</div>
+</div>
+</div>
+</div>
+</div></body></html>

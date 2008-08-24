@@ -136,7 +136,7 @@
          <arg value="-i"/>
 		 <arg value="run-time-src"/>
          <arg value="-d"/>
-		 <arg value="${build.dir}/docs"/>
+		 <arg value="docs"/>
 		 <classpath refid="js-shell-lib"/>
        </java>
 		
