@@ -252,7 +252,7 @@ function processJSFile(filename,inputdir)
 	out.close();
   }
 }
-
+<link type="text/css" rel="stylesheet" href="/hosting/css/d_20080729.css" />
 function saveAsHtml(doc, out){
     out.writeLine('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"')
     out.writeLine('"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">')
@@ -260,7 +260,8 @@ function saveAsHtml(doc, out){
                   "<head><title>" + 
                   doc.file.o + 
                   "--doc</title>" +
-                  "<link rel='stylesheet' href='screen.css' media='screen'>" +
+                  '<link rel="stylesheet" href="screen.css" type="text/css"' + 
+                  ' media="screen">' +
                   "<meta http-equiv='Content-Type'" +
                   " content='text/html; charset=UTF-8' />" +
                   "</head><body><div>")
