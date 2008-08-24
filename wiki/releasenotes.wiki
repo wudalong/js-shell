@@ -1,5 +1,8 @@
 #summary 历史版本说明
 
+# *js-shell-0.1.2* -- 2008-08-24 14:30
+  * 加入jsdoc.js 生成API文档
+
 # *js-shell-0.1.1* -- 2008-08-22 11:30
   * 添加ANT构建脚本
   * 更新启动脚本js.bat(win), js(linux)
