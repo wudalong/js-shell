@@ -92,6 +92,8 @@ div.fn_index li{
 
 .content{
 	float:left;
+	margin:0 auto; 
 	margin-left:20px;
+	margin-right:0px;
 }
 
