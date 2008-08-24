@@ -114,7 +114,7 @@
 		<copy file="${build.dir}/classes/JavaScript.class" todir="${build.dir}/bin"/>		
 	</target>
 
-	<target name="dist" depends="jar">
+	<target name="dist" depends="jar, docs">
 		<copy todir="${dist.dir}/">
 			<fileset dir="${build.dir}" >
 				<exclude name="${dist.name}/**"/>
@@ -124,6 +124,28 @@
 		<zip destfile="js-shell-${version}.zip" basedir="${build.dir}" includes="${dist.name}\**">
 		</zip>
 	</target>
+	
+    <target name="docs" depends="jar">
+	  <path id="js-shell-lib">
+		  <fileset dir="${build.dir}/lib" >
+			 <include name="*.jar"/>
+		  </fileset>
+	  </path>
+      <java classname="org.javascript.standalone.shell.Main" fork="true">
+		 <arg value="examples/jsdoc.js"/>
+         <arg value="-i"/>
+		 <arg value="run-time-src"/>
+         <arg value="-d"/>
+		 <arg value="${build.dir}/docs"/>
+		 <classpath refid="js-shell-lib"/>
+       </java>
+		
+        <copy todir="${build.dir}/docs">
+            <fileset dir="docs" >
+                <exclude name=".svn"/>
+            </fileset>
+        </copy>		
+    </target>
 
   <target name="clean" depends="properties">
     <delete quiet="true" dir="${build.dir}"/>
