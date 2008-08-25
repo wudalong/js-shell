@@ -1,9 +1,15 @@
 #summary 历史版本说明
 
+# *js-shell-0.1.3* -- 2008-08-25 23:30
+  * 实现了__import__方法, 支持在不同的命名空间加载js.
+  * 整理Runtime.js 将公共的方法放到了Lang中,并且以只读的方式导出到全局对象.
+  * 完善了方法map, grep, dir, each
+  * 添加了extend方法,实现简单的继承.
+
 # *js-shell-0.1.2* -- 2008-08-24 14:30
   * 加入jsdoc.js 生成API文档
 
-# *js-shell-0.1.1* -- 2008-08-22 11:30
+# *js-shell-0.1.1* -- 2008-08-22 23:30
   * 添加ANT构建脚本
   * 更新启动脚本js.bat(win), js(linux)
   * 添加JavaScript作为启动程序
