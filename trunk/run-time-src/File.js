@@ -3,6 +3,8 @@
   @global
 */
 
+var exports = ['File']
+
 /**
 * @class File
   create file object.

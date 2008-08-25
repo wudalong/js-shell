@@ -885,7 +885,7 @@ public class Global extends ImporterTopLevel
                                   boolean urlIsFile)
         throws IOException
     {
-        int chunkLength;
+        int chunkLength = 1024;
         InputStream is = null;
         try {
             if (!urlIsFile) {
@@ -901,7 +901,15 @@ public class Global extends ImporterTopLevel
                         charCoding = getCharCodingFromType(type);
                     }
                 }
-            } else {
+            } else if(filePath.indexOf(java.io.File.separatorChar) == -1){
+            		chunkLength = 1024;
+            		String library = filePath.replace('.', '/');
+            		library += ".js";
+            		is = Global.class.getClassLoader().getResourceAsStream(library);
+            }
+            
+            if (is == null){
+            	
                 File f = new File(filePath);
 
                 long length = f.length();

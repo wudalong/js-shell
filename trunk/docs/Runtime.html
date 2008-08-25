@@ -9,74 +9,66 @@
 </ul>
 <h3>Global function</h3>
 <ul>
-<li><a href='#dir'>dir(a)</a></li>
-<li><a href='#dump'>dump(o)</a></li>
-<li><a href='#each'>each(o1, fn2)</a></li>
 </ul>
 <h3>Class List</h3>
 <ul>
+<li><a href='#cls_Lang'>Lang</a></li>
+<ul>
+<li><a href='#dir'>dir(obj)</a></li>
+<li><a href='#each'>each(obj, call_back, scope)</a></li>
+</ul>
 </ul>
 </div>
 <div class='content'>
 <div class='ctext'>
   </div>
 <div class='g_fun'><h3>Global function</h3>
+</div>
+<div class='cls'><h3>Class Lang</h3>
+<div class='ctext'>
+  defined same global function.
+  
+  
+</div>
+<div class='pub_fn'><h3>Public method</h3>
 <div class='fn'>
 <div class='fn_sign'>
 <span class='fn_name'>dir</span>
-(<span class='fn_arg'>a</span>)
+(<span class='fn_arg'>obj</span>)
 &nbsp;return Array
 </div>
 <div class='ctext'>
-类似Python中的dir方法,返回对象的属性列表。
-    </div>
+    类似Python中的dir方法,返回对象的属性列表。
+        </div>
 <div class='example'><h4>Example:</h4>
-<pre><code>
-    var person = {name:'deownu', age:'99'};
-    attr = dir(person);
-    print(attr); //result: name, age
-</code></pre>   
-
-
-</div>
-</div>
-<div class='fn'>
-<div class='fn_sign'>
-<span class='fn_name'>dump</span>
-(<span class='fn_arg'>o</span>)
-&nbsp;return none
-</div>
-<div class='ctext'>
- 
-  </div>
-<div class='example'><h4>Example:</h4>
-<pre><code>
-    var person = {name:'deownu', age:'99'};
+    <pre><code>
+        var person = {name:'deownu', age:'99'};
+        attr = dir(person);
+        print(attr); //result: name, age
+    </code></pre>   
     
-    each(dir(person), fn(e){
-        print(e + ":" + person[e]); //print the attr and value.
-    });
-</code></pre>    
-         </div>
+    
+    </div>
 </div>
 <div class='fn'>
 <div class='fn_sign'>
 <span class='fn_name'>each</span>
-(<span class='fn_arg'>o1, fn2</span>)
+(<span class='fn_arg'>obj, call_back, scope</span>)
 &nbsp;return none
 </div>
 <div class='ctext'>
  使用fn�??历数组
-  </div>
+      </div>
 <div class='example'><h4>Example:</h4>
-<pre><code>
-    var person = {name:'deownu', age:'99'};
-    
-    each(dir(person), fn(e){
-        print(e + ":" + person[e]); //print the attr and value.
-    });
-</code></pre>    
-         </div>
+    <pre><code>
+        var person = {name:'deownu', age:'99'};
+        
+        each(dir(person), fn(e){
+            print(e + ":" + person[e]); //print the attr and value.
+        });
+    </code></pre>    
+             </div>
+</div>
 </div>
 </div>
 </div>
