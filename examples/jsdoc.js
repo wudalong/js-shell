@@ -4,7 +4,7 @@
  * 生成一个js文件的文档, 可以生成html,plain text, wiki格式 等. 现将一个文件转换为doc结构在
  * 输出不同的文档.
  */
-
+__import__('File')
 var FileList = [];
 var DirList = [];
 var outputdir = null;
