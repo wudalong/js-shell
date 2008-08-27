@@ -7,13 +7,10 @@ html, body {
 	font-family: Arial;
 	font-size: 14px;
 	width:100%;
-	height:100%;
-	overflow:hidden;
 	color:#444444;
 	padding:0.8em;
 }
 * html, * body {
-	height: 99%;
 }
 
 h1 a img { border: none; }
