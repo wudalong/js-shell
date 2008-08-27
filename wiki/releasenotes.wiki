@@ -1,5 +1,11 @@
 #summary 历史版本说明
 
+# *js-shell-0.1.3.1* -- 2008-08-28 23:30
+  * 添加了Unittest库, 实现了一个简单的例子
+  * each方法,支持iterator功能.
+  * 整合了Ext-js的extend方法.
+  * 修复一些bug, 完善了Lang的文档.
+
 # *js-shell-0.1.3* -- 2008-08-25 23:30
   * 实现了__import__方法, 支持在不同的命名空间加载js.
   * 整理Runtime.js 将公共的方法放到了Lang中,并且以只读的方式导出到全局对象.
