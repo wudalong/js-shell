@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head><title>run-time-src\UnitTest.js--doc</title><link rel="stylesheet" href="screen.css" type="text/css" media="screen"><meta http-equiv='Content-Type' content='text/html; charset=UTF-8' /></head><body><div>
+<div class='fn_index'>
+<h3>File list</h3>
+<ul>
+<li><a href='File.html'>File.js</a>
+<li><a href='Runtime.html'>Runtime.js</a>
+<li><a href='UnitTest.html'>UnitTest.js</a>
+</ul>
+<h3>Global function</h3>
+<ul>
+<li><a href='#run_suite'>run_suite(path, context)</a></li>
+</ul>
+<h3>Class List</h3>
+<ul>
+<li><a href='#cls_TestResult '>TestResult </a></li>
+<ul>
+<li><a href='#test'>test(name, testCase, scope)</a></li>
+</ul>
+<li><a href='#cls_TestRunner.'>TestRunner.</a></li>
+<ul>
+<li><a href='#run'>run(suite, result)</a></li>
+</ul>
+<li><a href='#cls_TestSuite'>TestSuite</a></li>
+<ul>
+<li><a href='#add_case'>add_case(tc)</a></li>
+<li><a href='#load_cases'>load_cases()</a></li>
+<li><a href='#next'>next(e, i)</a></li>
+</ul>
+</ul>
+</div>
+<div class='content'>
+<div class='ctext'></div>
+<div class='g_fun'><h3>Global function</h3>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>run_suite</span>
+(<span class='fn_arg'>path, context</span>)
+&nbsp;return none
+</div>
+<div class='ctext'>
+
+</div>
+</div>
+</div>
+<div class='cls'><h3>Class TestResult </h3>
+<div class='ctext'>
+ 
+ TestTestResult output result of tests in the console. 
+</div>
+<div class='pub_fn'><h3>Public method</h3>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>test</span>
+(<span class='fn_arg'>name, testCase, scope</span>)
+&nbsp;return none
+</div>
+<div class='ctext'>
+	       run a testCase; <br/>
+param: name -- testname used to print log.<br/>
+param: testCase -- special test case, a function or object. if it's 
+	                       a object. every function of named starts with 
+	                       'test_' will be run as test case.<br/>
+param: scope -- the testcase running context, default is current 
+	                       testcase object.
+	                    
+	    </div>
+</div>
+</div>
+</div>
+<div class='cls'><h3>Class TestRunner.</h3>
+<div class='ctext'>
+    
+    the class is get testcase from suite, and initial a TestCase object as
+    executing testcase context.
+</div>
+<div class='pub_fn'><h3>Public method</h3>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>run</span>
+(<span class='fn_arg'>suite, result</span>)
+&nbsp;return none
+</div>
+<div class='ctext'>
+        run a testsuite.
+        
+    </div>
+</div>
+</div>
+</div>
+<div class='cls'><h3>Class TestSuite</h3>
+<div class='ctext'>
+    
+    
+    this class used to load testcase from JS files. managed the loading rules
+    of testcase. 
+</div>
+<div class='pub_fn'><h3>Public method</h3>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>add_case</span>
+(<span class='fn_arg'>tc</span>)
+&nbsp;return none
+</div>
+<div class='ctext'>
+           add testcase pattern or testcase file.
+        </div>
+</div>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>load_cases</span>
+(<span class='fn_arg'></span>)
+&nbsp;return none
+</div>
+<div class='ctext'>
+            load cases JS condig from suite directory.
+        </div>
+</div>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>next</span>
+(<span class='fn_arg'>e, i</span>)
+&nbsp;return none
+</div>
+<div class='ctext'>
+              create a iterator for loading testcase coding, it's passed to 
+              'each' function to iterate.
+            </div>
+</div>
+</div>
+</div>
+</div>
+</div></body></html>

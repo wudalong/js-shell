@@ -6,6 +6,7 @@
 <ul>
 <li><a href='File.html'>File.js</a>
 <li><a href='Runtime.html'>Runtime.js</a>
+<li><a href='UnitTest.html'>UnitTest.js</a>
 </ul>
 <h3>Global function</h3>
 <ul>
@@ -14,8 +15,12 @@
 <ul>
 <li><a href='#cls_Lang'>Lang</a></li>
 <ul>
+<li><a href='#__import__'>__import__(module, imports, scope)</a></li>
+<li><a href='#apply'>apply(o, c, defaults)</a></li>
 <li><a href='#dir'>dir(obj)</a></li>
 <li><a href='#each'>each(obj, call_back, scope)</a></li>
+<li><a href='#grep'>grep(filter, list, scope)</a></li>
+<li><a href='#map'>map(fn, obj, scope)</a></li>
 </ul>
 </ul>
 </div>
@@ -33,12 +38,60 @@
 <div class='pub_fn'><h3>Public method</h3>
 <div class='fn'>
 <div class='fn_sign'>
+<span class='fn_name'>__import__</span>
+(<span class='fn_arg'>module, imports, scope</span>)
+&nbsp;return NameSpace
+</div>
+<div class='ctext'>
+        import function from JS file in a special scope(namespace).
+        
+param: module -- a moduel name, should a JS file without the extension.
+        <br/>
+param: imports -- a list which function will be imported, default is 
+        used exports list, defined by module self.<br/>
+param: scope -- the scope of to import the functions, default is global
+        JS object.
+        
+        
+        </div>
+<div class='example'><h4>Example:</h4>
+        <pre><code>
+            var unitTest = __import__('UnitTest', ['TestRunner'], {})
+            var runner = new unitTest.TestRunner            
+            
+            //import all function of UnitTest to current JS global environment.
+            __import__('UnitTest')
+            var runner = new TestRunner()
+        </code></pre>
+        
+    </div>
+</div>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>apply</span>
+(<span class='fn_arg'>o, c, defaults</span>)
+&nbsp;return {Object} returns obj
+</div>
+<div class='ctext'>
+ Copies all the properties of config to obj.
+	   Copy from(Ext-js)
+ 
+ 
+ 
+ 
+ 
+	 </div>
+</div>
+<div class='fn'>
+<div class='fn_sign'>
 <span class='fn_name'>dir</span>
 (<span class='fn_arg'>obj</span>)
 &nbsp;return Array
 </div>
 <div class='ctext'>
-    类似Python中的dir方法,返回对象的属性列表。
+       Return a list of the object.
+    
+        
         </div>
 <div class='example'><h4>Example:</h4>
     <pre><code>
@@ -47,17 +100,21 @@
         print(attr); //result: name, age
     </code></pre>   
     
-    
     </div>
 </div>
 <div class='fn'>
 <div class='fn_sign'>
 <span class='fn_name'>each</span>
 (<span class='fn_arg'>obj, call_back, scope</span>)
-&nbsp;return none
+&nbsp;return Boolean
 </div>
 <div class='ctext'>
- 使用fn�??历数组
+        To traversal the items of object by applying 'call_back' function. stoped
+        if the 'call_back' return false. if the object have next(), it's called for iterating the 
+     object, until the 'StopIterator' is throwed.
+    
+    
+           
       </div>
 <div class='example'><h4>Example:</h4>
     <pre><code>
@@ -66,8 +123,93 @@
         each(dir(person), fn(e){
             print(e + ":" + person[e]); //print the attr and value.
         });
-    </code></pre>    
+    </code></pre>
+      </div>
+<div class='example'><h4>Example:</h4>
+      
+    <pre><code>
+        var iterator = {i:100
+                        next:function(){
+                            if(i >= 110) throw "StopIterator"
+                            return this.i++;
+                        }}
+        
+        each(iterator, fn(e, i){
+            print(e, i); 
+        });
+    </code></pre>       
              </div>
+</div>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>grep</span>
+(<span class='fn_arg'>filter, list, scope</span>)
+&nbsp;return Array
+</div>
+<div class='ctext'>
+        Return a sub list of the argument list, filted the item by firstly
+        argument. if the item will returned if executing the filter with item 
+        return true.
+        the 'grep' function called 'each' function to traversal list, so any type
+        of object supported by 'each' can passed as 'grep' function.
+        
+        
+        
+        </div>
+<div class='example'><h4>Example:</h4>
+        filter a array list.        
+        <pre><code>
+            list = [1,2,3,4]
+            new_list = grep(function(e,i){return e > 2}, list);
+            print(new_list) //result is [3, 4]
+            
+            //other simple way, pass a string as filter function. this '$' is 
+            items of list.
+            new_list = grep("$+100", list);
+            
+        </code></pre>
+        </div>
+<div class='example'><h4>Example:</h4>
+        filter a object.        
+        <pre><code>
+            obj = {t1:100, t2:200, t3:300}            
+
+            new_obj = grep("$>100", obj);
+            
+            print(dir(new_obj)); //result is [t2, t3]
+            
+        </code></pre>        
+        
+    </div>
+</div>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>map</span>
+(<span class='fn_arg'>fn, obj, scope</span>)
+&nbsp;return Array
+</div>
+<div class='ctext'>
+        Return a list of the result of applying the function to the items of 
+        a obj. used 'each' function to traversal the obj.
+        
+        
+        
+        </div>
+<div class='example'><h4>Example:</h4>
+        everty item of list added 100.
+        <pre><code>
+            list = [1,2,3,4]
+            new_list = map(function(e,i){return e+100}, list);
+            print(new_list) //result is [101, 102, 103, 104]
+            
+            //other simple way, apply a string as call function. this '$' is 
+            items of list.
+            new_list = map("$+100", list);
+            
+        </code></pre>
+        
+        
+    </div>
 </div>
 </div>
 </div>

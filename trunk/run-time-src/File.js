@@ -12,10 +12,18 @@ var exports = ['File']
   @param path
   @param mode value:r/w, default is 'r'
 */
-var File = function(path, mode) {
+var File = function(path, parent, mode) {
+
+    if (typeof(parent) == 'object' && parent.constrctor === File){
+        this.o = new java.io.File(parent.o, path)
+    }else {
+        mode = parent
+    }
+    
 	this.o = new java.io.File(path);
 	this.mode = mode || 'r';
-	this.h = null;	
+	this.h = null;
+	
 }
 
 File.prototype = {
@@ -82,5 +90,28 @@ File.prototype = {
             if(this.mode == 'w')this.h.flush()
             this.h.close
         }
-    }
+    },
+    
+    walker: function(fn){
+        return this._walker_java_dir(this.o, fn)
+    },
+    
+    isFile: function(){ return this.o.isFile(); },
+    isDir: function(){ return this.o.isDirectory(); },
+    
+    abs_path: function(){
+        return this.o.getAbsolutePath()
+    },
+    
+    _walker_java_dir: function(dir, fn) {
+        if(dir.isFile()){
+            var abs_path = dir.getAbsolutePath()
+            fn(dir.getName(), abs_path.replace(this.o.getAbsolutePath(), ''))
+        }else {
+            var jfile_list = dir.listFiles();
+            for(var i = 0; i < jfile_list.length; i++){
+                this._walker_java_dir(jfile_list[i], fn);
+            }
+        }
+    } 
 }
