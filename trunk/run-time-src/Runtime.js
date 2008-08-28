@@ -17,6 +17,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Js-Shell.  If not, see <http://www.gnu.org/licenses/>.
  *
+ * $ Name LastChangeRevision LastChangeDate LastChangeBy $
  * $Id$
  */
 
