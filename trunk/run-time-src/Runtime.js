@@ -32,6 +32,9 @@ Lang.fn = Lang.prototype = {
 
 	/**
 	 * Copies all the properties of config to obj.
+
+
+	 
 	   Copy from(Ext-js)
 	 * @param {Object} obj The receiver of the properties
 	 * @param {Object} config The source of the properties
@@ -52,7 +55,7 @@ Lang.fn = Lang.prototype = {
 	    return o;
 	},
 
-/**
+        /**
          * Extends one class with another class and optionally overrides members with the passed literal. This class
          * also adds the function "override()" to the class that can be used to override
          * members on an instance.
@@ -93,7 +96,6 @@ Lang.fn = Lang.prototype = {
          * @param {Object} overrides (optional) A literal with members which are copied into the subclass's
          * prototype, and are therefore shared between all instances of the new class.
          * @return {Function} The subclass constructor.
-         * @method extend
          */
     extend: function(){
         // inline overrides

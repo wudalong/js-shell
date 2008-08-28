@@ -1,6 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html><head><title>run-time-src\Runtime.js--doc</title><link rel="stylesheet" href="screen.css" type="text/css" media="screen"><meta http-equiv='Content-Type' content='text/html; charset=UTF-8' /></head><body><div>
+<table with='98%'><tr><td width='18%' valign='top'>
 <div class='fn_index'>
 <h3>File list</h3>
 <ul>
@@ -19,11 +20,13 @@
 <li><a href='#apply'>apply(o, c, defaults)</a></li>
 <li><a href='#dir'>dir(obj)</a></li>
 <li><a href='#each'>each(obj, call_back, scope)</a></li>
+<li><a href='#extend'>extend()</a></li>
 <li><a href='#grep'>grep(filter, list, scope)</a></li>
 <li><a href='#map'>map(fn, obj, scope)</a></li>
 </ul>
 </ul>
 </div>
+</td><td with='80%'>
 <div class='content'>
 <div class='ctext'>
   </div>
@@ -74,6 +77,9 @@ param: scope -- the scope of to import the functions, default is global
 </div>
 <div class='ctext'>
  Copies all the properties of config to obj.
+
+
+	 
 	   Copy from(Ext-js)
  
  
@@ -139,6 +145,56 @@ param: scope -- the scope of to import the functions, default is global
         });
     </code></pre>       
              </div>
+</div>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>extend</span>
+(<span class='fn_arg'></span>)
+&nbsp;return {Function} The subclass constructor.
+</div>
+<div class='ctext'>
+ Extends one class with another class and optionally overrides members with the passed literal. This class
+ also adds the function "override()" to the class that can be used to override
+ members on an instance.
+ * <p>
+ This function also supports a 2-argument call in which the subclass's constructor is
+ not passed as an argument. In this form, the parameters are as follows:</p><p>
+ <div class="mdetail-params"><ul>
+ <li><code>superclass</code>
+ <div class="sub-desc">The class being extended</div></li>
+ <li><code>overrides</code>
+ <div class="sub-desc">A literal with members which are copied into the subclass's
+ prototype, and are therefore shared among all instances of the new class.<p>
+ This may contain a special member named <tt><b>constructor</b></tt>. This is used
+ to define the constructor of the new class, and is returned. If this property is
+ <i>not</i> specified, a constructor is generated and returned which just calls the
+ superclass's constructor passing on its parameters.</p></div></li>
+ </ul></div></p><p>
+         
+         Copy from(Ext-js)
+         </div>
+<div class='example'><h4>Example:</h4>
+         For example, to create a subclass of the Ext GridPanel:
+         <pre><code>
+    MyGridPanel = Ext.extend(Ext.grid.GridPanel, {
+        constructor: function(config) {
+            // Your preprocessing here
+            MyGridPanel.superclass.constructor.apply(this, arguments);
+            // Your postprocessing here
+        },
+
+        yourMethod: function() {
+            // etc.
+        }
+    });
+</code></pre>
+ </p>
+ 
+ 
+ 
+ prototype, and are therefore shared between all instances of the new class.
+ 
+         </div>
 </div>
 <div class='fn'>
 <div class='fn_sign'>
@@ -214,4 +270,5 @@ param: scope -- the scope of to import the functions, default is global
 </div>
 </div>
 </div>
+</td></tr></table>
 </div></body></html>

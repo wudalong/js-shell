@@ -1,18 +1,28 @@
 
-var exports = ['run_suite', 'TestRunner', 'TestResult', 'TestCase', 'TestSuite']
+var exports = ['run_suite', 'TestRunner', 'TestResult',
+               'TestCaseContext', 'TestSuite']
 
 var file_lib = __import__('File', null, {})
-/**
 
+/**
+  a simple way to run a test suite.
+  
+  Example:
+  <pre><code>
+  var ut = __import__('UnitTest', null, {});  //import Unittest library.
+  
+  ut.run_suite('C:\js-shell\unittest');   //run all unitest in dir.
+  
+  </code></pre>
 */
 function run_suite(path, context){
 
-    print('suite root:' + (new file_lib.File(path)).abs_path())
+    //print('suite root:' + (new file_lib.File(path)).abs_path())
     
 	var runner = new TestRunner(context)
 	
 	var  suite = new TestSuite('Simple suite', path)
-	suite.add_case('test_*.js')
+	suite.add_case('test_*.js$')
 	
 	var result = runner.run(suite, new TextTestResult())
 	
@@ -36,6 +46,8 @@ var TestSuite = extend(function(name, root){
      }, {
         /**
             load cases JS condig from suite directory.
+            
+            @return Iterator
         */
         load_cases: function(){
             if(!this.loaded){
@@ -53,7 +65,7 @@ var TestSuite = extend(function(name, root){
             }           
             //list = map('this.root_path + $', this.testCase, this)
             //return map($loadcoding, list)
-            /**
+            /*
               create a iterator for loading testcase coding, it's passed to 
               'each' function to iterate.
             */
@@ -76,6 +88,15 @@ var TestSuite = extend(function(name, root){
         
         /**
            add testcase pattern or testcase file.
+           <br/>           
+           *param: tc -- a testfile or pattern to match test file.
+           
+           Example:
+           <pre><code>
+		    var  suite = new TestSuite('Simple suite', test_root)
+		    suite.add_case('test_*.js') //add test file pattern. 
+		    suite.add_case('runtime.js')  //add a test file.
+           </code></pre> 
         */        
         add_case: function(tc){
             if(tc.constructor === RegExp) {
@@ -94,12 +115,11 @@ var TestSuite = extend(function(name, root){
     });
 
 /**
-    @class TestRunner.
-    the class is get testcase from suite, and initial a TestCase object as
-    executing testcase context.
+    @class TestRunner
+    the class is get testcase from suite, and initial a TestCase context.
 */
 var TestRunner = extend(function(tc){
-        this.TestCaseContext = tc || TestCase
+        this.TestCaseContext = tc || TestCaseContext
     }, {
     /**
         run a testsuite.
@@ -183,7 +203,7 @@ var TestResult = extend(function(){
 })
 
 /**
- @class TestResult 
+ @class TextTestResult 
  TestTestResult output result of tests in the console. 
 */ 
 var TextTestResult = extend(TestResult, {
@@ -212,11 +232,12 @@ var TextTestResult = extend(TestResult, {
         
     });
     
-/*
-@class TestCase
-It's defined a testcase running context for every test suit file.
+/**
+ @class TestCaseContext
+
+ It's defined a testcase running context for every test suit file.
 */
-var TestCase = extend(function(result) {
+var TestCaseContext = extend(function(result) {
         this.result = result;
         this.curTestCase = this;
         this.running_name = ''
@@ -269,30 +290,34 @@ var TestCase = extend(function(result) {
 	       *param: testCase -- special test case, a function or object. if it's 
 	                       a object. every function of named starts with 
 	                       'test_' will be run as test case.<br/>
+	       *param: setUp -- <br/>
+	       *param: tearDown -- <br/>
 	       *param: scope -- the testcase running context, default is current 
 	                       testcase object.
 	                    
 	    */
-	    test: function(name, testCase, scope){
-	       this.running_name = name
-	       var startTime = new Date().getTime(), endTime;
+	    test: function(name, testCase, setUp, tearDown, scope){
 	       
            if(typeof name == 'object'){
-                _test = this;
-                testObj = name
-                var setUp = testObj.setUp ||function(){}
-                var tearDown = testObj.tearDown ||function(){}
-                
-                each(name, function(tc, name){
+                var _test = this;
+                var testObj = name
+                                
+                each(testObj, function(tc, name){                    
                     if (name.indexOf('test_') == 0){
-	                    setUp.apply(scope || testObj)
-	                    _test.test(name, tc, scope || testObj)
-	                    tearDown.apply(scope || testObj)
+	                    _test.test(name, tc, testObj.setUp,
+	                               testObj.tearDown, testObj)	                    
                     }
                 });
            }else {  //runn a test case.
 		       try{
-		           testCase.apply(scope || this.curTestCase)
+		           this.running_name = name
+		           scope = scope || this.curTestCase
+		           
+		           var startTime = new Date().getTime(), endTime;
+		           
+	               if(typeof(setUp) == 'function'){setUp.apply(scope)}
+		           testCase.apply(scope)
+		           if(typeof(tearDown) == 'function'){tearDown.apply(scope)}
 		           
 		           endTime = new Date().getTime()
 		           this._test_status(name, startTime, endTime, 'PASS')
