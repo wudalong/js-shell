@@ -28,7 +28,7 @@ function $loadcoding(model) {
 var global = this;
 
 /**
-  defined same global function.
+  defined same global function
   
   @class Lang
 */
