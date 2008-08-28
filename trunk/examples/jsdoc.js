@@ -20,12 +20,13 @@
  * along with Js-Shell.  If not, see <http://www.gnu.org/licenses/>.
  *
  * $ Name LastChangeRevision LastChangeDate LastChangeBy $
- * $Id: Runtime.js 61 2008-08-28 09:15:11Z DeonWu $
+ * $Id$
  */
 
 /**
  * 生成一个js文件的文档, 可以生成html,plain text, wiki格式 等. 现将一个文件转换为doc结构在
  * 输出不同的文档.
+ *
  */
 __import__('File')
 var FileList = [];
