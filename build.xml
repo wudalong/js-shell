@@ -68,7 +68,7 @@
 		<mkdir dir="${dist.dir}"/>
 				
 	</target>
-
+	
 	<target name="compile-shell" depends="properties, init">
 		<javac srcdir="shell-src"
 			   destdir="${build.dir}/classes"
@@ -126,11 +126,11 @@
 	</target>
 	
     <target name="docs" depends="jar">
-	  <path id="js-shell-lib">
-		  <fileset dir="${build.dir}/lib" >
-			 <include name="*.jar"/>
-		  </fileset>
-	  </path>
+      <path id="js-shell-lib">
+          <fileset dir="${build.dir}/lib" >
+             <include name="*.jar"/>
+          </fileset>
+      </path>		
       <java classname="org.javascript.standalone.shell.Main" fork="true">
 		 <arg value="examples/jsdoc.js"/>
          <arg value="-i"/>
@@ -145,6 +145,20 @@
                 <exclude name=".svn"/>
             </fileset>
         </copy>		
+    </target>
+	
+    <target name="unit-test" depends="jar">
+      <path id="js-shell-lib">
+          <fileset dir="${build.dir}/lib" >
+             <include name="*.jar"/>
+          </fileset>
+      </path>  		
+      <java classname="org.javascript.standalone.shell.Main" fork="true"
+		  dir="utest"
+		  >
+         <arg value="run_unit_test.js"/>
+         <classpath refid="js-shell-lib"/>
+       </java>  
     </target>
 
   <target name="clean" depends="properties">
@@ -164,27 +178,18 @@
              into ${classes} directory
              excluding deprecated code
 
- compile-all compile all classes and copy all property files
-             into ${classes} directory
-             including deprecated code
-
  deepclean   remove all generated files and directories
 
  dist        create ${dist.file} with full Rhino distribution
 
  help        print this help
 
- jar         create ${rhino.jar} in ${dist.dir}
+ jar         create runtime.jar in ${build.dir}/lib
 
- smalljar    create ${small-rhino.jar} in ${dist.dir} with
-             minimalist set of Rhino classes. See footprint.html
-             from the doc directory for details.
+ unit-test   run unit test.
+	
+ docs        create jsdoc	
 
- javadoc     generate Rhino API documentation
-             in ${dist.dir}/javadoc
-
- source-zip  create ${dist.source-only-zip} with all Rhino
-             source files necessary to recreate ${dist.file}
 </echo>
   </target>
 

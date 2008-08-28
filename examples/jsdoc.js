@@ -189,6 +189,8 @@ function processComment(comment,firstLine,fname) {
 		tags[name] = a;
 		return "";
 	  });
+	  
+	//comment = comment.replace('\n\n', "<br/>")
 	//comment.replace(/\r/,'');
 	list = comment.split("Example:\n")
     comment = list[0]
@@ -266,8 +268,9 @@ function saveAsHtml(doc, out){
                   " content='text/html; charset=UTF-8' />" +
                   "</head><body><div>")
     //create left index.
+    out.writeLine("<table with='98%'><tr><td width='18%' valign='top'>");
     outputFileIndex(doc, out)
-    
+    out.writeLine("</td><td with='80%'>");
     out.writeLine("<div class='content'>");
     out.writeLine("<div class='ctext'>"+ ((doc.comment) ? doc.comment.text : "") 
                   +"</div>")
@@ -287,7 +290,9 @@ function saveAsHtml(doc, out){
         }   
     });
     
-    out.writeLine("</div>")
+    out.writeLine("</div>") //end content
+    out.writeLine("</td></tr></table>")
+    
     out.writeLine("</div></body></html>")
 }
 
