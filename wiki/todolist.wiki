@@ -21,8 +21,8 @@
 || unittest || Deonwu || 完成原型 || UnitTest.js || js 的单元测试框架 ||
 || database || N/A || 计划 || N/A || js的数据库接口 ||
 || logging || N/A || 计划 || N/A || 日志接口 ||
-|| XMLhttp || N/A || 计划 || N/A || 兼容XMLHttpRequest ||
-|| dom || N/A || 计划 || N/A || 兼容浏览器中的dom接口 ||
+|| XMLhttp || Deonwu || 开发中 || Browser.js || 兼容XMLHttpRequest ||
+|| dom || Deonwu || 开发中 || Browser.js || 兼容浏览器中的dom接口 ||
 || ext-swing || Deonwu || 开发中 || [http://code.google.com/p/ext-swing Ext-Swing] || 兼容Ext-js的swing版 ||
 || net || N/A || 计划 || N/A || N/A ||
 
