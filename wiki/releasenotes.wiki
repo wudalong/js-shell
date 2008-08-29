@@ -1,5 +1,9 @@
 #summary 历史版本说明
 
+# *js-shell-0.1.4.1* -- 2008-08-31 01:05
+  * 从JQuery移植浏览器模拟对象, 改为Browser.js
+  * 添加js_dev.js,可以用不打包的方式运行.
+
 # *js-shell-0.1.3.1* -- 2008-08-29 01:30
   * 添加了Unittest库, 实现了一个简单的例子
   * each方法,支持iterator功能.
