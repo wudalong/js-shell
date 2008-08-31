@@ -110,6 +110,11 @@
 		<copy todir="${build.dir}/examples">
 			<fileset dir="examples" />
 		</copy>
+		<copy todir="${build.dir}/utest">
+			<fileset dir="utest" >
+				<include name="**/*.js"/>
+			</fileset>
+		</copy>		
 		<copy file="lib/js.jar" todir="${build.dir}/lib"/>
 		<copy file="${build.dir}/classes/JavaScript.class" todir="${build.dir}/bin"/>		
 	</target>
@@ -119,6 +124,7 @@
 			<fileset dir="${build.dir}" >
 				<exclude name="${dist.name}/**"/>
 				<exclude name="classes/**"/>
+				<exclude name="js-shell*/**"/>
 			</fileset>
 		</copy>
 		<zip destfile="js-shell-${version}.zip" basedir="${build.dir}" includes="${dist.name}\**">
