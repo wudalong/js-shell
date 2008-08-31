@@ -37,7 +37,9 @@ var Lang = function(scope){
 Lang.fn = Lang.prototype = {
 
     exports: ['extend', 'each',
-                'grep', 'map', 'dir', '__import__'],
+              'grep', 'map', 'dir', '__import__',
+              'cmp', 'min', 'max',
+             ],
 
     __importToScopt__: function(scope){
 	    var lang = this;
@@ -158,8 +160,55 @@ Lang.fn = Lang.prototype = {
                 p[method] = overrides[method];
             }
         }
-    },    
+    },
     
+    /**
+        To compare the two obj, return 1, 0 -1.
+        if the two object is Array, compared the each items.
+    
+    @return Number
+           
+    */    
+    cmp: function(obj1, obj2) {
+        if(obj1.constructor == Array &&
+           obj2.constructor == Array 
+        ){
+            var len = min(obj1.length, obj2.length)
+            for(var i = 0; i < min(obj1.length, obj2.length); i++){
+                var re = Lang.fn.cmp(obj1[i], obj2[i])
+                if (re != 0) return re
+            }
+            return Lang.fn.cmp(obj1.length, obj2.length)
+        }else {
+            if(obj1 == obj2)return 0;
+            return (obj1 < obj2) ? -1 : 1;
+        }
+    },
+    
+    /**
+     return minimal object.
+    @return obj
+    */        
+    min: function(obj1, obj2) {
+        var m = obj1;
+        for(var i = 1; i < arguments.length; i++) {
+            if(arguments[i] < m){ m = arguments[i]}
+        }
+        return m;
+    },
+    
+    /**
+    return maximum object.
+    @return obj
+    */        
+    max: function(obj1, obj2) {
+        var m = obj1;
+        for(var i = 1; i < arguments.length; i++) {
+            if(arguments[i] > m){ m = arguments[i]}
+        }
+        return m;
+    },
+     
     /**
         To traversal the items of object by applying 'call_back' function. stoped
         if the 'call_back' return false. if the object have next(), it's called for iterating the 

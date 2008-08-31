@@ -100,11 +100,13 @@ var TestSuite = extend(function(name, root){
                         if (i >= this.list.length) {
                             throw "StopIterator"
                         }
-                        //var tc_file = new file_lib.File(this.list[this.i], this.root);
-                        var tc_file = this.root.abs_path() + this.list[this.i]
+                        var tc_file = new file_lib.File(this.list[this.i],
+                                                        this.root);
+                        //var tc_file = this.root.abs_path() + this.list[this.i]
                         this.i += 1;
-                        return {file: tc_file,
-                                source: $loadcoding(tc_file)
+                        return {file: tc_file.abs_path().
+                                      replace(this.root.abs_path(), ''),
+                                source: $loadcoding(tc_file.abs_path())
                                }
                     }};
         },
@@ -125,8 +127,8 @@ var TestSuite = extend(function(name, root){
             if(tc.constructor === RegExp) {
                 this.pattern.push(tc)
             }else if(tc.indexOf('*') == -1){
-	            file = new this.files.File(tc, this.root_path);
-	            if(!file.is_file()){throw "'" + file + "' is not a file!";}
+	            file = new file_lib.File(tc, this.root_path);
+	            if(!file.isFile()){throw "'" + tc + "' is not a file!";}
 	            
 	            this.testCases.push(tc)
             }else {
@@ -164,7 +166,11 @@ var TestRunner = extend(function(tc){
         with(tc){
             info('Start test file:' + file_name)
             try{
-				eval(coding); 
+                if(coding){
+				    eval(coding);
+			    }else {
+			        info('!!!Warning, the test coding is empty!!!')
+			    } 
             }catch(e){
                 info('Loading test file error:' + e)
             }
@@ -279,9 +285,11 @@ var TestCaseContext = extend(function(result) {
 	       }   
 	    },
 		
-		assertEqual: function(expected, actual, msg) {
-		     if(expected != actual) {
-		          throw msg || "expected: " + expected + ", actual: " + actual
+		assertEqual: function(actual, expected, msg) {
+		     //cmp funcation supported to compeare Arrary items.
+		     if(cmp(expected,actual) != 0) {
+		          throw msg || "expected: " + expected + 
+		                       ", actual: " + actual
 		     }
 		},
 		

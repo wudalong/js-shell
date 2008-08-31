@@ -20,35 +20,36 @@
  * $ Name LastChangeRevision LastChangeDate LastChangeBy $
  * $Id$
  */
- 
-test("Lang dir" function(){
-	
+
+//init lang object.
+var lang_lib = __import__('Lang', null, {})
+var lang = new lang_lib.Lang()
+
+test({
+    setUp: function(){
+        
+    },
+    test_dir_null_object: function(){
+        var error = 'null or undefined object should retrue empty arrary';
+        assertEqual(lang.dir(null), [], error)
+        assertEqual(lang.dir(undefined), [], error)
+    },
+    
+    test_dir_empty_object: function(){
+        var object = {}
+        assertEqual(lang.dir(object), [])
+    },
+
+    test_dir_object_object: function(){
+        var object = {attr1:'test 1', attr2:'test 2'}
+        assertEqual(lang.dir(object).sort(), ['attr1', 'attr2'])
+    },
+    
+    test_dir_functional_object: function(){
+        var object = function(){}
+        //Is it really expected in application?
+        assertEqual(lang.dir(object), ['prototype'])
+    },    
 });
 	
 
-test({
-    name: "Lang dir",
-    msg: '',
-    setUp: function(){
-        this.msg = "enter setUp";
-        info('enter setUp');
-    },
-    
-    test_basic_requirements: function(){
-        info('running test_basic_requirements');
-        assertEqual(this.msg, "enter setUp")
-        this.msg = 'test_basic_requirements'
-    },
-    
-    test_setUp_called_for_every_functional: function(){
-        info('test_setUp_called_for_every_functional');
-        assertEqual(this.msg, "enter setUp")
-        this.msg = 'test_setUp_called_for_every_functional'
-    },   
-    
-    tearDown: function(){
-        this.msg = "enter tearDown";
-        info('enter tearDown');
-    },
-    
-});
