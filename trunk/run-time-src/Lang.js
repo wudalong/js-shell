@@ -170,8 +170,8 @@ Lang.fn = Lang.prototype = {
            
     */    
     cmp: function(obj1, obj2) {
-        if(obj1.constructor == Array &&
-           obj2.constructor == Array 
+        if(obj1 && obj1.constructor == Array &&
+           obj2 && obj2.constructor == Array 
         ){
             var len = min(obj1.length, obj2.length)
             for(var i = 0; i < min(obj1.length, obj2.length); i++){
@@ -320,6 +320,9 @@ Lang.fn = Lang.prototype = {
         if (typeof filter == 'string'){
             var fn = filter;
             filter = function($, k){return eval(fn)} 
+        }else if(filter.constructor == RegExp) {
+            var p = filter;
+            filter = function($, k){return p.test($)}
         }
         
         if(list.constructor === Array) {
@@ -362,17 +365,17 @@ Lang.fn = Lang.prototype = {
         
         
     */ 
-    map: function(fn, obj, scope) {
+    map: function(converter, obj, scope) {
         if(!obj || typeof obj != 'object') return;
         
-        if (typeof call_back == 'string'){
-            var fn = call_back;
-            call_back = function($, k){return eval(fn)} 
-        }        
+        if (typeof converter == 'string'){
+            var fn = converter;
+            converter = function($, k){return eval(fn)} 
+        }    
         
         var result = new obj.constructor()
         Lang.fn.each(obj, function(item, k) {
-            result[k] = call_back.call(scope || item, item, k)
+            result[k] = converter.call(scope || item, item, k)
         })
         
         return result;    

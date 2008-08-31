@@ -125,7 +125,8 @@ File.prototype = {
     _walker_java_dir: function(dir, fn) {
         if(dir.isFile()){
             var abs_path = dir.getAbsolutePath()
-            fn(dir.getName(), abs_path.replace(this.o.getAbsolutePath(), ''))
+            var o_path = this.o.getAbsolutePath() + ''
+            fn(dir.getName(), abs_path.substring(o_path.length + 1))
         }else {
             var jfile_list = dir.listFiles();
             for(var i = 0; i < jfile_list.length; i++){

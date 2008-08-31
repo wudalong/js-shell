@@ -147,3 +147,145 @@ test({
     },    
 });	
 
+// Lang.grep functional
+test({
+    test_grep_null_object: function(){
+        var error = 'should return empty list, if grep object is null or undefined';
+        
+        var result = lang.grep('true', null)
+        assertEqual(result, [], error)
+
+        var result = lang.grep('true', undefined)
+        assertEqual(result, [], error)
+    },
+    
+    test_grep_empty_array: function(){
+        
+        var result = lang.grep('true', [])
+        assertEqual(result, [])
+    },
+
+    test_grep_array_object: function(){
+        var result = lang.grep(function(e){return e % 2 == 0}, [1,2,3,4,5,6]);
+        assertEqual(result, [2, 4, 6])
+    },
+
+    test_grep_array_with_string: function(){
+        var result = lang.grep('$%2 == 0', [1,2,3,4,5,6]);
+        assertEqual(result, [2, 4, 6])
+    },
+
+    test_grep_object_attr: function(){
+        var result = lang.grep(function(e){return e % 2 == 0},
+                               {attr1:1, 
+                                attr2:2,
+                                attr3:3,
+                                attr4:4,});
+                                
+        assertEqual(lang.dir(result).sort(), ['attr2', 'attr4'])
+        assertEqual(result.attr2, 2)
+        assertEqual(result.attr4, 4)
+    },    
+  
+    test_grep_array_with_regexp: function(){
+        var result = lang.grep(/test_\d+/, ['test_1', 'test_11', 'test_a']);
+        assertEqual(result, ['test_1', 'test_11'])
+    },
+}); 
+
+// Lang.map functional
+test({
+    test_map_null_object: function(){
+        var error = 'should return undefined, if map object is null or undefined';
+        
+        var result = lang.map('true', null)
+        assertEqual(result, undefined, error)
+
+        var result = lang.map('true', undefined)
+        assertEqual(result, undefined, error)
+    },
+    
+    test_map_empty_array: function(){
+        
+        var result = lang.map('$ * 2', [])
+        assertEqual(result, [])
+    },
+
+    test_map_array_object: function(){
+        var result = lang.map(function(e){return e * 2}, [1,2,3,4,5,6]);
+        assertEqual(result, [2, 4, 6, 8, 10, 12])
+    },
+
+    test_map_array_object_with_string: function(){
+        var result = lang.map('$ * 2', [1,2,3,4,5,6]);
+        assertEqual(result, [2, 4, 6, 8, 10, 12])
+    },
+
+    test_map_object_attr: function(){
+        var result = lang.map(function(e){return e * 2},
+                               {attr1:1, 
+                                attr2:2,
+                               });
+                                
+        assertEqual(lang.dir(result).sort(), ['attr1', 'attr2'])
+        assertEqual(result.attr1, 2)
+        assertEqual(result.attr2, 4)
+    },    
+  
+    test_map_object_attr_with_string: function(){
+        var result = lang.map('$ * 2',
+                               {attr1:1, 
+                                attr2:2,
+                               });
+                                
+        assertEqual(lang.dir(result).sort(), ['attr1', 'attr2'])
+        assertEqual(result.attr1, 2)
+        assertEqual(result.attr2, 4)
+    },  
+}); 
+
+// Lang.max/min/cmp functional
+test({
+    
+    test_max_list: function(){
+        assertEqual(lang.max(1), 1)
+        assertEqual(lang.max(3, 1, 5), 5)
+        assertEqual(lang.max('ab', 'ac', 'cc'), 'cc')        
+    },
+    
+    test_min_list: function(){
+        assertEqual(lang.min(1), 1)
+        assertEqual(lang.min(3, 1, 5), 1)
+        assertEqual(lang.min('ab', 'ac', 'cc'), 'ab')        
+    },    
+ 
+    test_cmp_number: function(){
+        assertEqual(lang.cmp(1, 2), -1)
+        assertEqual(lang.cmp(2, 1), 1)
+        assertEqual(lang.cmp(1, 1), 0)   
+        
+        assertEqual(lang.cmp(1, undefined), 1)   
+    },
+ 
+    test_cmp_string: function(){
+        assertEqual(lang.cmp('ab', 'bb'), -1)
+        assertEqual(lang.cmp('bb', 'ab'), 1)
+        assertEqual(lang.cmp('aa', 'aa'), 0)   
+        
+        assertEqual(lang.cmp('aa', undefined), 1)   
+        
+    },  
+ 
+    test_cmp_array: function(){
+        assertEqual(lang.cmp([], []), 0)
+        assertEqual(lang.cmp([1], []), 1)
+        assertEqual(lang.cmp([1, 2 ,3], [1, 2, 3]), 0)
+        assertEqual(lang.cmp([1, 3 ,3], [1, 2, 3]), 1)
+        
+        assertEqual(lang.cmp([1, [1, 2, 3] ,3], [1, [1, 2, 3], 3]), 0)
+        assertEqual(lang.cmp([1, [1, 3, 3] ,3], [1, [1, 2, 3], 3]), 1)
+        
+        assertEqual(lang.cmp([1, 2 ,3], [1, 2, 3, 0]), -1)
+        
+    },               
+}); 
