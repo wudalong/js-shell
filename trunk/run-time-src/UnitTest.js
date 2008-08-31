@@ -96,7 +96,7 @@ var TestSuite = extend(function(name, root){
             return {i: 0, 
                     list: this.testCases, 
                     root: this.root_path,
-                    next: function(e, i) {
+                    next: function(i) {
                         if (i >= this.list.length) {
                             throw "StopIterator"
                         }

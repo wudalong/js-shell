@@ -239,7 +239,7 @@ Lang.fn = Lang.prototype = {
     </code></pre>       
              */
     each: function(obj, call_back, scope) {
-        if(!obj || typeof obj != 'object') return;
+        if(!obj || typeof obj != 'object') return false;
         
         if(obj.constructor === Array) {
             return Lang.fn.eachArray(obj, call_back, scope)
@@ -253,12 +253,13 @@ Lang.fn = Lang.prototype = {
             }
             return true
         }
+        
     },
     
     eachIterator: function(obj, call_back, scope) {
         try {
             for(var i = 0; true; i++){
-                item = obj.next(null, i)
+                item = obj.next(i)
                 if(call_back.call(scope || obj, item, i) === false){
                     return false
                 }
