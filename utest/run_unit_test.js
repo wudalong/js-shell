@@ -27,4 +27,24 @@ var file_lib = __import__('File', null, {})
 var ut = __import__('UnitTest', null, {})
 print('Suite Root:' + (new file_lib.File('.')).abs_path())
 
-ut.run_suite('.')
+print('arguments:' + arguments)
+
+//print('suite root:' + (new file_lib.File(path)).abs_path())
+    
+var runner = new ut.TestRunner()
+
+var  suite = new ut.TestSuite('Simple suite', '.')
+
+if(arguments.length > 0){
+    for(var i = 0; i < arguments.length; i++){
+        suite.add_case(arguments[i])
+    }
+}else {
+    suite.add_case('test_*.js$')
+}
+
+var result = runner.run(suite)
+
+result.summary()
+
+//ut.run_suite('.')
