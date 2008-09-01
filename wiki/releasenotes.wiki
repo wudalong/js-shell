@@ -1,5 +1,11 @@
 #summary 历史版本说明
 
+# *js-shell-0.2* -- 2008-09-01 11:05
+  * 完成31个unit test.
+  * 添加Browser unitest.
+  * 添加cmp, min, max方法.
+  * 正式发布0.2
+
 # *js-shell-0.1.4.1* -- 2008-08-31 01:05
   * 从JQuery移植浏览器模拟对象, 改为Browser.js
   * 添加js_dev.js,可以用不打包的方式运行.
