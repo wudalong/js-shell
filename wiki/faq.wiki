@@ -7,7 +7,7 @@
   A:很抱歉,还没思考．主要是作者在杭州出差期间,下班后实在无聊不知道做什么好．突然想到找个玩具来打发时间．既然是玩具, 所以也就没有去思考什么意义．有兴趣就玩玩而已．
 
   * *Q:这个和浏览器里的js有什么区别*
-  A:只是语法上一样, 浏览器中有的功能这都没有．比如:window, document对象都没有, 但是多了print, import方法．可以把这个js-shell看成一个普通的语言, 例如python, ruby, perl. 
+  A:只是语法上一样, 浏览器中有的功能这都没有．比如:window, document对象都没有(但可以导入包实现), 但是多了print, import方法．可以把这个js-shell看成一个普通的语言, 例如python, ruby, perl. 
 
   * *Q:这个js-shell和java是什么关系*
   A:js-shell的解析器使用java写的, 所以在和java交互的时候比较容易. 基本上可以直接调用Java的代码. 
