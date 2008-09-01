@@ -49,11 +49,13 @@
     <property file="build.local.properties" />
     <tstamp>
       <!-- Specify date part of Context#getImplementationVersion() -->
-      <format property="implementation.date" pattern="yyyy MM dd"/>
+      <format property="build.date" pattern="yyyy-MM-dd-hhmm"/>
     </tstamp>
     <property file="build.properties"/>
 	<property name="version" value="0.1"/>
-
+	  
+	<property name="night.build.name" value="js-shell-${build.date}"/>
+	<property name="night.build.dir" value="${build.dir}/${night.build.name}"/>
   </target>
 
 	<target name="init" depends="properties">
@@ -131,6 +133,19 @@
 		</zip>
 	</target>
 	
+    <target name="night-build" depends="jar, docs">
+		<mkdir dir="${night.build.dir}" />
+        <copy todir="${night.build.dir}/">
+            <fileset dir="${build.dir}" >
+                <exclude name="classes/**"/>
+                <exclude name="js-shell*/**"/>
+            </fileset>
+        </copy>
+        <zip destfile="${night.build.name}.zip" basedir="${build.dir}" includes="${night.build.name}\**">
+        </zip>
+		<delete quiet="true" dir="${night.build.dir}"/>
+    </target>	
+	
     <target name="docs" depends="jar">
       <path id="js-shell-lib">
           <fileset dir="${build.dir}/lib" >
@@ -193,6 +208,8 @@
  jar         create runtime.jar in ${build.dir}/lib
 
  unit-test   run unit test.
+	
+ night-build   night-build
 	
  docs        create jsdoc	
 
