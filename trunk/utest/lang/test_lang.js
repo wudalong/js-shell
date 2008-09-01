@@ -44,9 +44,9 @@ test({
     },
     
     test_dir_functional_object: function(){
-        var object = function(){}
+        var obj1 = function(){}
         //Is it really expected in application?
-        assertEqual(lang.dir(object), ['prototype'])
+        assertEqual(lang.dir(obj1), ['prototype'])
     },    
 });
 	
@@ -288,4 +288,58 @@ test({
         assertEqual(lang.cmp([1, 2 ,3], [1, 2, 3, 0]), -1)
         
     },               
+}); 
+
+// Lang.extend functional
+test({
+    
+    test_extend_function: function(){
+        var base = function(){
+            this.attr1 = 'test';
+            this.base_fn = function(){}
+         };
+        
+        var subClass = lang.extend(base, {
+            sub_fn: function(){
+                return 'sub_fn'
+            },
+            sub_attr: 'test_attr',
+        });
+        
+        var subObj = new subClass();
+        var baseObj = new base();
+        
+        assertEqual(baseObj.attr1, 'test')
+        assertEqual(baseObj.base_fn.constructor, Function)
+              
+        assertEqual(subObj.attr1, 'test')
+        assertEqual(subObj.base_fn.constructor, Function)
+        
+        assertEqual(subObj.sub_fn(), 'sub_fn')
+        assertEqual(subObj.sub_attr, 'test_attr')
+    },
+    
+    test_extend_overriding_function: function(){
+        var base = lang.extend(function(){
+         }, {
+            attr1: 'base_attr',
+            base_fn: function(){return 'base_fn';}
+         });
+        
+        var subClass = lang.extend(base, {
+            base_fn: function(){
+                return 'sub_fn'
+            },
+            attr1: 'sub_attr',
+        });
+        
+        var subObj = new subClass();
+        var baseObj = new base();
+        
+        assertEqual(baseObj.attr1, 'base_attr')
+        assertEqual(baseObj.base_fn(), 'base_fn')
+              
+        assertEqual(subObj.attr1, 'sub_attr')
+        assertEqual(subObj.base_fn(), 'sub_fn')
+    },             
 }); 

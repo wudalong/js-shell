@@ -693,7 +693,7 @@ XMLHttpRequest.prototype = {
 			return returnedHeaders.join("\r\n");
 		}
 	},
-	async: true,
+	async: false,
 	readyState: 0,
 	responseText: "",
 	status: 0
