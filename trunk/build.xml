@@ -97,7 +97,7 @@
 	</target>
   
 	<target name="jar-runtime" depends="properties">
-		<jar jarfile="${build.dir}/lib/runtime-${version}.jar"
+		<jar jarfile="${build.dir}/lib/js-runtime-${version}.jar"
 			 basedir="run-time-src"
 			 manifest="conf/manifest-runtime"
 			 excludes=".svn"
@@ -179,7 +179,7 @@
 		  >
          <arg value="run_unit_test.js"/>
          <classpath refid="js-shell-lib"/>
-       </java>  
+       </java>
     </target>
 
   <target name="clean" depends="properties">
