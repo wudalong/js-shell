@@ -24,178 +24,310 @@
 
 var exports = ['SocketServer', 'Socket']
 
-/**
-*
-* @class SocketServer 
-*/
-var SocketServer = extend(function(port){
-	    this.port = port
-	            
-	}, {
-	   
-	   accept: function(){
-	   },
-	   
-	   bind: function(address){
-	   },
-	   
-	   close: function(){
-	   },
-	   
-	   get localPort(){
-	   },
-	   
-	   get localAddress(){
-       },
-       
-       get timeout(){
-       },
+var socketLib = JavaImporter();
+socketLib.importPackage(Packages.java.net);
+socketLib.importPackage(Packages.java.nio);
+socketLib.importPackage(Packages.java.nio.channels);
+socketLib.importPackage(Packages.java.nio.charset);
 
-       set timeout(val){
-       },       
-	   
-	   /**
-	       add socket server event listener.
-	       *param:
-	       -type: (values: 'accept', 'connect')
-	       accept fn argument:(socketserver, socket)
-	       connect fn argument:(socketserver, socket)
-	   */
-	   addEventListener: function(type, fn){
-	   },
-	   
-       
-       /**
-            a short name of addEventListener
-       */   	   
-	   on: function(){
-	       this.addEventListener.apply(this, arguments)
-	   }
-	   
-       removeEventListener: function(type, fn){
-       },
-       
-       /**
-            a short name of removeEventListener
-       */       
-       un: function(){
-           this.removeEventListener.apply(this, arguments)
-       }
-	})
 
-/**
-*
-* @class Socket 
-*/
-var Socket = extend(function(addr, port){
-        this.port = port
-        this.blocking = true
-           
-    }, {
-       
-       bind: function(address){
-       },
-       
-       close: function(){
-       },
-       
-       /**
-        Connect to a remote socket at address.
-       */
-       connect: function(addr, port){
-       },
-       
+var Basesocket = {
+
        get localPort(){
+            return this.socket.getLocalPort()
        },
        
        get localAddress(){
+            var address = this.socket.getLocalSocketAddress()
+            
+            return (address) ? address.getHostName() : undefined
        },
-       
-       get port(){
-       
-       },
-       
-       get address(){
-       }, 
        
        get timeout(){
+            return this.socket.getSoTimeout()
        },
 
        set timeout(val){
+            return this.socket.setSoTimeout(val)
        },
        
        /**
          java Socket object.
        */
        get socket() {
+            return this.ch.socket()
        },
        
        /**
-         java Socket object.
+         java Socket Channel.
        */       
-       set socket() {
+       set channel(val) {
+            this.ch = val
+       },       
+
+       bind: function(address, port){
+            address = address || this.bindHost || '127.0.0.1'
+            port = port || this.bindPort || 0
+            this.socket.bind(new socketLib.InetSocketAddress(address, port))
+            
+            //print('bind to: ' + address + ', port' + port) 
        },
-          
+       
+       close: function(){
+            this.selector.close()
+            this.ch.close()
+            this.selector.wakeup()
+       },
+              
        /**
            add socket server event listener.
            *param:
-           -type: (values: 'read', 'write')
-           accept fn argument:(socket)
-           connect fn argument:(socket)
+           -type: (values: 'accept', 'connect')
+           accept fn argument:(socketserver, socket)
+           connect fn argument:(socketserver, socket)
        */
-       addEventListener: function(type, fn){
+       addEventListener: function(type, fn, scope){
+           if(! this.events[type]) {
+               this.events[type] = []
+           } 
+           if (scope) {
+                this.events[type].push(function(){
+                    fn.apply(scope, arguments)
+                })
+           }else {
+                this.events[type].push(fn)
+           }
        },
+       
        
        /**
             a short name of addEventListener
-       */
+       */          
        on: function(){
            this.addEventListener.apply(this, arguments)
-       }
+       },
        
        removeEventListener: function(type, fn){
+            if(this.events[type]){
+                this.events[type].filter(function(e){
+                    return e != fn
+                })
+            }
        },
        
        /**
             a short name of removeEventListener
-       */
+       */       
        un: function(){
            this.removeEventListener.apply(this, arguments)
        },
        
+       getListenerbyType: function(type) {
+           return this.events[type]
+       },       
+}
+
+/**
+*
+* @class SocketServer 
+*/
+
+var SocketServer = extend(function(host, port){       
+        this.bindHost = host;
+        this.bindPort = port;
+        
+        //this.port = port
+        this.ch = socketLib.ServerSocketChannel.open();
+
+        this.ch.configureBlocking(false);
+　　      //InetSocketAddress address = new InetSocketAddress(InetAddress.getLocalHost(),9000);
+　　      //ssc.socket().bind(address);
+        this.events = {}
+        
+    },Basesocket)
+
+
+SocketServer = SocketServer.extend({
+	
+	   accept: function(){
+	        var socket = new Socket()
+            socket.channel = this.ch.accept()
+	   
+	        return socket;
+	   },
+	   
+	   listen: function(address, port){
+	       this.bind(address, port)
+	       
+            var selector = this.selector = socketLib.Selector.open();
+            this.ch.register(selector, socketLib.SelectionKey.OP_ACCEPT);
+		    
+		    //print('select...') 
+		    for(var keysAdded = selector.select(); keysAdded > 0;
+		        keysAdded = selector.select()
+		      ) {
+		        // Someone is ready for I/O, get the ready keys
+		        var readyKeys = selector.selectedKeys();
+		        var i = readyKeys.iterator();
+		        // Walk through the ready keys collection and process date requests.
+		        while (i.hasNext()) {
+			        var sk = i.next();
+			        i.remove();
+			        // The key indexes into the selector so you
+			        // can retrieve the socket that's ready for I/O
+			        if (sk.isAcceptable()) {
+				        nextReady = sk.channel();
+				        // Accept the date request and send back the date string
+				        sc = nextReady.accept()
+				        var socket = new Socket()
+				        socket.channel = sc
+				        
+				        //print('accept...')
+	                    this.dispatchEvent('accept', socket)
+	                    if(socket.getListenerbyType('read')) {
+	                        sc.configureBlocking(false);
+	                        sc.register(selector, 
+	                                    socketLib.SelectionKey.OP_READ,
+	                                    socket)
+	                        
+	                    }                  
+			        }else if(sk.isReadable()) {
+                        var socket = sk.attachment()
+                        socket.readBuffer()
+                        if(socket.ch.isOpen()){
+                            //print('read...on server side:' + socket.socket.isClosed())
+                            socket.dispatchEvent('read')
+                        }else {
+                            //print('closed...')
+                            socket.dispatchEvent('closed')
+                            sk.cancel()
+                        }
+			        }
+		        } // while (i.hasNext())
+		   }
+	   },
+	   
+       dispatchEvent: function(type, arg){
+           each(this.events[type], function(e){
+                e(arg)
+           });
+       }
+	}) //end SocketServer.extend
+	
+
+/**
+*
+* @class Socket 
+*/
+var Socket = extend(function(addr, port){
+        this.bindHost = addr;
+        this.bindPort = port;
+                
+        this.events = {}                
+        this.buffer = socketLib.ByteBuffer.allocate(1024 * 4)
+        this.charset = socketLib.Charset.defaultCharset()
+        
+    }, Basesocket)	
+
+Socket = Socket.extend({
+       get port(){
+            return this.socket.getPort();
+       },
+       
+       get address(){
+            var address = this.socket.getInetAddress()
+            
+            return (address) ? address.getHostName() : undefined       
+       }, 
+       
+       /**
+        Connect to a remote socket at address.
+       */
+       connect: function(addr, port){           
+            address = address || this.bindHost || '127.0.0.1';
+            port = port || this.bindPort;
+            
+            this.channel = socketLib.SocketChannel.open(new socketLib.
+                    InetSocketAddress(address, port))
+                                   
+            var selector = this.selector = socketLib.Selector.open();
+            this.ch.register(selector, socketLib.SelectionKey.OP_CONNECT);
+            
+            for(var keysAdded = selector.select(); keysAdded > 0;
+                keysAdded = selector.select()
+              ) {
+               // Someone is ready for I/O, get the ready keys
+                var readyKeys = selector.selectedKeys();
+                var i = readyKeys.iterator();
+                // Walk through the ready keys collection and process date requests.
+                while (i.hasNext()) {
+	                var sk = i.next();
+	                i.remove();
+	                // The key indexes into the selector so you
+	                // can retrieve the socket that's ready for I/O
+	                if (sk.isConnectable()) {
+	                    var nextReady = sk.channel();
+	                   //print('connect...')
+	                    this.dispatchEvent('connect', socket)
+	                    if(socket.getListenerbyType('read')) {
+	                        sc.configureBlocking(false);
+	                        sc.register(selector, 
+	                                    socketLib.SelectionKey.OP_READ,
+	                                    socket)
+	                        
+	                    }
+	                }else if(sk.isReadable()) {
+	                    if(sk.channel().isOpen()){
+	                       
+		                    var socket = sk.attachment()
+		                    //print('read...')
+		                    socket.dispatchEvent('read')
+	                    }else {
+	                        //print('closed...')
+	                        sk.cancel()
+	                    }
+	                }
+	            } //while (i.hasNext()) 
+            }      
+       },       
+       
        /**
             read specail length string. if the len is 0, read all data. 
        */
-       read: function(len, block) {
-            
-       },
-       
-       /**
-            read a line. 
-       */
-       readLine: function(len, block) {
-            
+       read: function() {
+            var data = this.charset.decode(this.buffer).toString()
+            //var len = this.buffer.array().length
+            //print('read data:' + data)
+            //print('read len:' + this.buffer.get())
+            //
+            return data
        },
 
        /**
             write data to socket. 
        */
        write: function(data) {
-       },
-
-       /**
-            write a line data to socket. 
-       */
-       writeLine: function(data){
+            //data += ''
+            buffer = this.charset.encode(data)
+            this.ch.write(buffer)
+            
        },
        
-       /**
-            Set blocking or non-blocking mode of the socket: if flag is 0, 
-            the socket is set to non-blocking, else to blocking mode. 
-            Initially all sockets are in blocking mode. set to non-blocking if
-            a 'read' type listener registered.
-       */
-       setblocking: function(block) {
-        
-       }   
-    })
+       readBuffer: function(){
+            this.buffer.clear();     
+            //this.buffer.flip();       
+            var len = this.ch.read(this.buffer);
+            this.buffer.flip();
+            if (len < 0) {
+                this.ch.close()
+            }
+            //print('read len:' + len)
+       },
+       
+       dispatchEvent: function(type){
+           var socket = this;
+           each(this.events[type], function(e){
+                e(socket)
+           });
+       }       
+    })  //end Socket.extend
