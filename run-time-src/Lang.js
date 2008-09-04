@@ -71,7 +71,14 @@ Lang.fn = Lang.prototype = {
         }
         if(o && c && typeof c == 'object'){
             for(var p in c){
-                o[p] = c[p];
+                var g = c.__lookupGetter__(p), s = c.__lookupSetter__(p);
+                if ( g || s ) {
+                    if ( g )
+                        o.__defineGetter__(p, g);
+                    if ( s )
+                        o.__defineSetter__(p, s);
+                 } else
+                    o[p] = c[p];
             }
         }
         return o;
@@ -123,8 +130,15 @@ Lang.fn = Lang.prototype = {
         // inline overrides
         var io = function(o){
             for(var m in o){
-                this[m] = o[m];
-            }
+                var g = o.__lookupGetter__(m), s = o.__lookupSetter__(m);
+                if ( g || s ) {
+                    if ( g )
+                        this.__defineGetter__(m, g);
+                    if ( s )
+                        this.__defineSetter__(m, s);
+                 } else
+                    this[m] = o[m];
+             }
         };
         var oc = Object.prototype.constructor;
 
@@ -148,7 +162,7 @@ Lang.fn = Lang.prototype = {
             };
             sbp.override = io;
             Lang.fn.override(sb, overrides);
-            sb.extend = function(o){Ext.extend(sb, o);};
+            sb.extend = function(o){return Lang.fn.extend(sb, o);};
             return sb;
         };
     }(),
@@ -156,8 +170,16 @@ Lang.fn = Lang.prototype = {
     override: function(origclass, overrides){
         if(overrides){
             var p = origclass.prototype;
-            for(var method in overrides){
-                p[method] = overrides[method];
+            for(var i in overrides){
+                var g = overrides.__lookupGetter__(i),
+                    s = overrides.__lookupSetter__(i);
+		        if ( g || s ) {
+		            if ( g )
+		                p.__defineGetter__(i, g);
+		            if ( s )
+		                p.__defineSetter__(i, s);
+		         } else
+                    p[i] = overrides[i];
             }
         }
     },
