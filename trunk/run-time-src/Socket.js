@@ -70,13 +70,19 @@ var Basesocket = {
             port = port || this.bindPort || 0
             this.socket.bind(new socketLib.InetSocketAddress(address, port))
             
+            this.dispatchEvent('bind', this)
+            
             //print('bind to: ' + address + ', port' + port) 
        },
        
        close: function(){
-            this.selector.close()
+            this.closed = true;
+            
             this.ch.close()
+            this.selector.close()
             this.selector.wakeup()
+            
+            print('socket closed....')
        },
               
        /**
@@ -243,52 +249,73 @@ Socket = Socket.extend({
        /**
         Connect to a remote socket at address.
        */
-       connect: function(addr, port){           
+       connect: function(address, port){           
             address = address || this.bindHost || '127.0.0.1';
             port = port || this.bindPort;
             
-            this.channel = socketLib.SocketChannel.open(new socketLib.
-                    InetSocketAddress(address, port))
-                                   
+            var connect_addr = new socketLib.InetSocketAddress(address, port)
+            
+            this.channel = socketLib.SocketChannel.open()
+                    
+            this.ch.configureBlocking(false);
+            
             var selector = this.selector = socketLib.Selector.open();
             this.ch.register(selector, socketLib.SelectionKey.OP_CONNECT);
+            if(this.getListenerbyType('read')) {
+                //sc.configureBlocking(false);
+                print('register read ...')
+                this.ch.register(selector, 
+                            socketLib.SelectionKey.OP_READ,
+                            this)
+                
+            }            
             
-            for(var keysAdded = selector.select(); keysAdded > 0;
-                keysAdded = selector.select()
-              ) {
+            this.ch.connect(connect_addr)
+            print('connect....:' + this.ch.finishConnect())
+            if(this.ch.finishConnect()){
+                this.dispatchEvent('connect')
+            }
+            
+            this.closed = false;
+            //var keysAdded;
+            while(!this.closed && selector.select() > 0) {
+                //if(!selector.isOpen()) break;
                // Someone is ready for I/O, get the ready keys
                 var readyKeys = selector.selectedKeys();
                 var i = readyKeys.iterator();
                 // Walk through the ready keys collection and process date requests.
-                while (i.hasNext()) {
+                while (!this.closed && i.hasNext()) {
 	                var sk = i.next();
 	                i.remove();
 	                // The key indexes into the selector so you
 	                // can retrieve the socket that's ready for I/O
 	                if (sk.isConnectable()) {
-	                    var nextReady = sk.channel();
-	                   //print('connect...')
-	                    this.dispatchEvent('connect', socket)
-	                    if(socket.getListenerbyType('read')) {
-	                        sc.configureBlocking(false);
-	                        sc.register(selector, 
-	                                    socketLib.SelectionKey.OP_READ,
-	                                    socket)
-	                        
-	                    }
+	                    print('connect...')
+                        if(this.ch.finishConnect()){                    
+		                    this.dispatchEvent('connect')
+		                }
 	                }else if(sk.isReadable()) {
-	                    if(sk.channel().isOpen()){
-	                       
-		                    var socket = sk.attachment()
-		                    //print('read...')
-		                    socket.dispatchEvent('read')
-	                    }else {
-	                        //print('closed...')
-	                        sk.cancel()
-	                    }
+                        var socket = sk.attachment()
+                        socket.readBuffer()
+                        if(socket.ch.isOpen()){
+                            //print('read...on client side:' + socket.socket.isClosed())
+                            socket.dispatchEvent('read')
+                        }else {
+                            //print('closed...')
+                            socket.dispatchEvent('closed')
+                            sk.cancel()
+                        }
 	                }
 	            } //while (i.hasNext()) 
-            }      
+            }
+            
+            if(this.ch.isOpen()){
+                this.ch.close()
+            }
+            if(this.selector.isOpen()){
+                this.selector.close()
+            }
+            print('.............')      
        },       
        
        /**

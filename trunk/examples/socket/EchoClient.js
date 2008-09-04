@@ -24,27 +24,26 @@
  
  var socket = __import__('Socket', null, {})
  
- var server = new socket.SocketServer('127.0.0.1', 8000)
+ var client = new socket.Socket('127.0.0.1', 8000)
  
- server.on('bind', function(server) {
-    print('listen on:' + server.localAddress + ', port:' + server.localPort)
- }) 
  
- server.on('accept', function(client){
-    print('new client:' + client.address + ', port:' + client.port)
-    print('new client local:' + client.localAddress + ', port:' + client.localPort)
-    client.on('read', function(s) {
-        var input = s.read();
-        print('read data:' + input)
-        s.write(input)
-    });
-    client.on('closed', function(s) {
-        print('s... closed')
-        //s.write('input')
-    });
- })
-  
- server.listen()
+client.on('read', function(client){
+    var echo = client.read();
+    print('echo from server:' + echo)
+    client.close()
+    //client.write("Hello server, i'm a client!")
+})
+ 
+client.on('connect', function(client){
+    print('connectted....')
+    client.write("Hello server, i'm a client!")
+})
+
+client.on('closed', function(client){
+    client.write("Bye!")    
+})
+ 
+client.connect()
  
  
  
