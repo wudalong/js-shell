@@ -17,11 +17,24 @@
 </ul>
 <h3>Class List</h3>
 <ul>
-<li><a href='#cls_SocketClient '>SocketClient </a></li>
+<li><a href='#cls_BaseSocket '>BaseSocket </a></li>
 <ul>
+<li><a href='#addEventListener'>addEventListener(type, fn, scope)</a></li>
+<li><a href='#bind'>bind(address, port)</a></li>
+<li><a href='#close'>close()</a></li>
+<li><a href='#on'>on()</a></li>
+<li><a href='#removeEventListener'>removeEventListener(type, fn)</a></li>
+<li><a href='#un'>un()</a></li>
+</ul>
+<li><a href='#cls_Socket '>Socket </a></li>
+<ul>
+<li><a href='#connect'>connect(address, port)</a></li>
+<li><a href='#read'>read()</a></li>
+<li><a href='#write'>write(data)</a></li>
 </ul>
 <li><a href='#cls_SocketServer '>SocketServer </a></li>
 <ul>
+<li><a href='#listen'>listen(address, port)</a></li>
 </ul>
 </ul>
 </div>
@@ -30,12 +43,132 @@
 <div class='ctext'></div>
 <div class='g_fun'><h3>Global function</h3>
 </div>
-<div class='cls'><h3>Class SocketClient </h3>
+<div class='cls'><h3>Class BaseSocket </h3>
+<div class='ctext'>
+    
+</div>
+<div class='pub_fn'><h3>Public method</h3>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>addEventListener</span>
+(<span class='fn_arg'>type, fn, scope</span>)
+&nbsp;return none
+</div>
+<div class='ctext'>
+           add socket server event listener.
+param:
+           -type: (values: 'listen', 'accept', 'closed')
+           accept fn argument:(socketserver, socket)
+           connect fn argument:(socketserver, socket)
+       </div>
+</div>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>bind</span>
+(<span class='fn_arg'>address, port</span>)
+&nbsp;return none
+</div>
+<div class='ctext'>
+         java Socket Channel.
+       </div>
+</div>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>close</span>
+(<span class='fn_arg'></span>)
+&nbsp;return boolean
+</div>
+<div class='ctext'>
+            close current socket. return false if the socket closed before, otherwise
+            return true;
+            
+            
+       </div>
+</div>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>on</span>
+(<span class='fn_arg'></span>)
+&nbsp;return none
+</div>
+<div class='ctext'>
+            a short name of addEventListener
+       </div>
+</div>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>removeEventListener</span>
+(<span class='fn_arg'>type, fn</span>)
+&nbsp;return none
+</div>
+<div class='ctext'>
+           remove event listener.
+       </div>
+</div>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>un</span>
+(<span class='fn_arg'></span>)
+&nbsp;return none
+</div>
+<div class='ctext'>
+            a short name of removeEventListener
+       </div>
+</div>
+</div>
+</div>
+<div class='cls'><h3>Class Socket </h3>
 <div class='ctext'>
 
  
 </div>
 <div class='pub_fn'><h3>Public method</h3>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>connect</span>
+(<span class='fn_arg'>address, port</span>)
+&nbsp;return none
+</div>
+<div class='ctext'>
+        Connect to a remote socket at address. add this function will blocked 
+        until the socket is closed, fire a 'read' event when data is received.
+           
+           </div>
+<div class='example'><h4>Example:</h4>
+           <pre><code>
+     var client = new socket.Socket()  //create a client socket.
+       
+    client.on('read', function(s) {     //add event on data is received.
+        var input = s.read();      // read data 
+        s.write(input)             //write data to remote
+    });
+    client.connect('127.0.0.1', 8000) //connect to server on 8000 port.       
+       </code></pre>        
+       </div>
+</div>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>read</span>
+(<span class='fn_arg'></span>)
+&nbsp;return string
+</div>
+<div class='ctext'>
+            read data from socket, when read event is fired. the function always
+            return a string object. 
+            
+            
+       </div>
+</div>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>write</span>
+(<span class='fn_arg'>data</span>)
+&nbsp;return none
+</div>
+<div class='ctext'>
+            write data to socket. 
+       </div>
+</div>
 </div>
 </div>
 <div class='cls'><h3>Class SocketServer </h3>
@@ -44,6 +177,33 @@
  
 </div>
 <div class='pub_fn'><h3>Public method</h3>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>listen</span>
+(<span class='fn_arg'>address, port</span>)
+&nbsp;return none
+</div>
+<div class='ctext'>
+	       listen a port, add this function will blocked until the server stop.
+	       fire a 'accept' event when a client is connected. and all of read 
+	       event is registered on the server selector. that means is the server
+	       only a single thread to serve for all client. 
+	       
+	       </div>
+<div class='example'><h4>Example:</h4>
+	       <pre><code>
+	 var server = new socket.SocketServer()  //create a server
+	   
+	 server.on('accept', function(client){  //add event on new client connected.
+	    client.on('read', function(s) {     //add event on client readable.
+	        var input = s.read();      // read data from client
+	        s.write(input)             //write to client
+	    });
+	 })	       
+	server.listen('127.0.0.1', 8000) //listen 8000 port.       
+	   </code></pre>
+	   </div>
+</div>
 </div>
 </div>
 </div>
