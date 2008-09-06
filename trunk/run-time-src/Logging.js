@@ -66,13 +66,54 @@ var javaLoggerAdapter = extend(function(){
         },
     });
 
+var jsLoggerAdapter = extend(function(){        
+        this.Logger = extend(function(name){
+                this.name = name;
+            },{
+            trace: function(msg){
+                this._msg_('TRACE', msg)
+            }, 
+            debug: function(msg){
+                this._msg_('DEBUG', msg)
+            },
+            info: function(msg){
+                this._msg_('INFO', msg)
+            },
+            warn: function(msg){
+                this._msg_('WARN', msg)
+            },
+            error: function(msg){
+                this._msg_('ERROR', msg)
+            }, 
+            _msg_: function(l, msg){
+                print(this.name + ' ' + l + ":" + msg)
+            }       
+        })
+    }, {
+        initConfig: function(cfg){
+            
+        },
+        getLogger: function(name){
+            return new this.Logger(name);
+        },
+    });
+
 //var logManager = logLib.LogManager.getLogManager()
 //var rootLogger = logManager.getLogger('');
-var logManager = new javaLoggerAdapter()
+var logManager = new jsLoggerAdapter()
 var rootLogger;
 
 /**
     init log configuration.
+    config item:<br />
+    logLevel: trace, debug, info, warn, error<br />
+    format: <br/>
+    appender: <br />
+    <pre>
+        filename:
+        format:     
+    </pre>
+   
 */
 function initConfig(cfg){
     logManager.initConfig(cfg)
