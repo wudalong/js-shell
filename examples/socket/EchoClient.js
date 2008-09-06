@@ -31,7 +31,7 @@ client.on('read', function(client){
     var echo = client.read();
     print('echo from server:' + echo)
     client.write("Bye!")
-    //client.close()
+    client.close()
     //client.write("Hello server, i'm a client!")
 })
  
