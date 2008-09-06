@@ -30,7 +30,8 @@
 client.on('read', function(client){
     var echo = client.read();
     print('echo from server:' + echo)
-    client.close()
+    client.write("Bye!")
+    //client.close()
     //client.write("Hello server, i'm a client!")
 })
  
@@ -40,7 +41,8 @@ client.on('connect', function(client){
 })
 
 client.on('closed', function(client){
-    client.write("Bye!")    
+    //client.write("Bye!")    
+    print('Bye!')
 })
  
 client.connect()

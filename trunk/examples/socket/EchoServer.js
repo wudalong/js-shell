@@ -26,20 +26,29 @@
  
  var server = new socket.SocketServer('127.0.0.1', 8000)
  
- server.on('bind', function(server) {
-    print('listen on:' + server.localAddress + ', port:' + server.localPort)
- }) 
+ server.on('listen', function(server) {
+    print('Event listen on server:' + server.localAddress + ', port:' + server.localPort)
+ })
+ server.on('clientClosed', function(client) {
+    print('Event clientClosed on server:' + client.address + ', port:' + client.port)
+ })
+ server.on('closed', function(socket) {
+    print('Event closed on server')
+ })
+
  
  server.on('accept', function(client){
     print('new client:' + client.address + ', port:' + client.port)
-    print('new client local:' + client.localAddress + ', port:' + client.localPort)
     client.on('read', function(s) {
         var input = s.read();
         print('read data:' + input)
         s.write(input)
+        if(input == 'q'){
+            server.close()
+        }
     });
     client.on('closed', function(s) {
-        print('s... closed')
+        print('bye bye client.')
         //s.write('input')
     });
  })
