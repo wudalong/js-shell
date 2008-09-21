@@ -448,6 +448,10 @@ Lang.fn = Lang.prototype = {
     __import__: function(module, imports, scope) {
        var coding = $loadcoding(module);
        
+       if(coding == undefined){
+            return undefined;
+       }
+       
        coding += "\n;each(imports || exports, function(e){scope[e] = eval(e);});"
        try{
             /*

@@ -20,8 +20,13 @@
 <ul>
 <li><a href='#cls_File'>File</a></li>
 <ul>
+<li><a href='#abs_path'>abs_path()</a></li>
 <li><a href='#close'>close()</a></li>
+<li><a href='#isDir'>isDir()</a></li>
+<li><a href='#isFile'>isFile()</a></li>
+<li><a href='#mkdirs'>mkdirs()</a></li>
 <li><a href='#readLine'>readLine()</a></li>
+<li><a href='#walker'>walker(fn)</a></li>
 <li><a href='#writeLine'>writeLine(s)</a></li>
 </ul>
 </ul>
@@ -42,12 +47,52 @@
 <div class='pub_fn'><h3>Public method</h3>
 <div class='fn'>
 <div class='fn_sign'>
+<span class='fn_name'>abs_path</span>
+(<span class='fn_arg'></span>)
+&nbsp;return none
+</div>
+<div class='ctext'>
+      abs_path
+    </div>
+</div>
+<div class='fn'>
+<div class='fn_sign'>
 <span class='fn_name'>close</span>
 (<span class='fn_arg'></span>)
 &nbsp;return none
 </div>
 <div class='ctext'>
       关闭已打开的文件.
+    </div>
+</div>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>isDir</span>
+(<span class='fn_arg'></span>)
+&nbsp;return none
+</div>
+<div class='ctext'>
+      isDir
+    </div>
+</div>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>isFile</span>
+(<span class='fn_arg'></span>)
+&nbsp;return none
+</div>
+<div class='ctext'>
+      isFile
+    </div>
+</div>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>mkdirs</span>
+(<span class='fn_arg'></span>)
+&nbsp;return none
+</div>
+<div class='ctext'>
+      mkdirs
     </div>
 </div>
 <div class='fn'>
@@ -70,6 +115,16 @@
         </code><pre>
  
      </div>
+</div>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>walker</span>
+(<span class='fn_arg'>fn</span>)
+&nbsp;return none
+</div>
+<div class='ctext'>
+      walker directory;
+    </div>
 </div>
 <div class='fn'>
 <div class='fn_sign'>

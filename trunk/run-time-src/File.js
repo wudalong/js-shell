@@ -22,7 +22,7 @@
  */
  
 
-var exports = ['File']
+var exports = ['File', 'tempFile']
 
 /**
 * @class File
@@ -43,6 +43,13 @@ var File = function(path, parent, mode) {
 	this.mode = mode || 'r';
 	this.h = null;
 	
+}
+
+var tempFile = function(name) {
+	var tempHost = java.io.File.createTempFile(name, "");
+	return new File(tempHost.getAbsolutePath())
+	//tempHost.mkdirs();
+	//log.debug("Embbed Host Root:" + tempHost.getAbsolutePath());
 }
 
 File.prototype = {
@@ -110,14 +117,31 @@ File.prototype = {
             this.h.close
         }
     },
-    
+
+    /**
+      walker directory;
+    */    
     walker: function(fn){
         return this._walker_java_dir(this.o, fn)
     },
-    
+
+    /**
+      isFile
+    */        
     isFile: function(){ return this.o.isFile(); },
+    /**
+      isDir
+    */      
     isDir: function(){ return this.o.isDirectory(); },
     
+    /**
+      mkdirs
+    */     
+    mkdirs: function(){ return this.o.mkdirs(); },    
+    
+    /**
+      abs_path
+    */     
     abs_path: function(){
         return this.o.getAbsolutePath()
     },
