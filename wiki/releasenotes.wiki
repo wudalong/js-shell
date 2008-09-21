@@ -1,7 +1,11 @@
 #summary 历史版本说明
 
+# *js-shell-0.2.0921* -- 2008-09-21 11:05
+  * add tempFile
+
 # *js-shell-0.2.06* -- 2008-09-06 11:05
   * Socket library is supported.
+  * Logging library is supported.
   * A socket sample(EchoServer.js, EchoClient.js) added.
 
 # *js-shell-0.2* -- 2008-09-01 11:05
