@@ -38,7 +38,7 @@ function driver(d) {
     Attempts to establish a connection to the given database URL.
 */
 function connect(url, user, password) {
-    var conn = sqlLib.getConnection(url, user, password);
+    var conn = sqlLib.DriverManager.getConnection(url, user, password);
     
     return new Connection(conn);
 }
@@ -50,12 +50,10 @@ function connect(url, user, password) {
   
   @param conn // jdbc connection.
 */
-function Connection(conn){
-    this.o = conn;
-}
 
-extend(Connection, {
-
+var Connection = extend(function(conn){
+	    this.o = conn;
+	}, {
     autoCommit: function(f) {
         if(typeof(f) == undefined) {
             return this.o.getAutoCommit();
@@ -73,7 +71,7 @@ extend(Connection, {
         bindParameter(pstm, w.param);
         var result = pstm.executeQuery();
         
-        return new ResultSet(pstm, rs);
+        return new ResultSet(pstm, result);
     },
     
     execute: function(sql, param){
@@ -110,24 +108,23 @@ function ResultSet(pstm, rs){
     this.dataWrapper.o = rs;
 }
 
-extend(ResultSet, {
+var ResultSet = extend(ResultSet, {
     _initPrototype: function(meta) {
         var cls = {};
         var defineGetter = function(cls, name, t, i){
-            cls.__defineGetter__(name, function() {
-                with(sqlLib.Types){
-	                if(t == VARCHAR || t == CLOB){
-	                   return this.o.getString(i);
-	                }else if(t == DATE)  {
-	                   return this.o.getDate(i);
-	                }else if(t == INTEGER || t == FLOAT || t == DOUBLE){
-                       return this.o.getFloat(i);	                   
-	                }
+            cls.__defineGetter__(name, function(){
+                var dt = sqlLib.Types
+                if(t == dt.VARCHAR || t == dt.CLOB){
+                   return this.o.getString(i);
+                }else if(t == dt.DATE){
+                   return this.o.getDate(i);
+                }else if(t == dt.INTEGER || t == dt.FLOAT || t == dt.DOUBLE){
+                   return this.o.getFloat(i);	                   
                 }
             });
         };
         
-        for(var i = meta.getColumnCount(); i >= 0; i--){
+        for(var i = meta.getColumnCount(); i > 0; i--){
             var name = meta.getColumnLabel(i);
             var col_type = meta.getColumnType(i);
             defineGetter(cls, name, col_type, i);

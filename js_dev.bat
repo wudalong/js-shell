@@ -23,4 +23,4 @@ rem $ Name LastChangeRevision LastChangeDate LastChangeBy $
 rem $Id: js.bat 65 2008-08-28 09:40:38Z DeonWu $
 rem 
 
-java -classpath run-time-src;lib\js.jar;build\classes org.javascript.standalone.shell.Main -debug  %*
+java -classpath run-time-src;lib\js.jar;lib\sqlitejdbc-v053.jar;build\classes org.javascript.standalone.shell.Main -debug  %*
