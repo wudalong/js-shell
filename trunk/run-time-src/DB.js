@@ -62,7 +62,7 @@ extend(Connection, {
         }else {
             return this.o.setAutoCommit(f);
         }
-    }
+    },
 
     select: function(sql, param){
         var w = formatSQL(sql, param);
@@ -73,7 +73,7 @@ extend(Connection, {
         bindParameter(pstm, w.param);
         var result = pstm.executeQuery();
         
-        return ResultSet(pstm, rs);
+        return new ResultSet(pstm, rs);
     },
     
     execute: function(sql, param){
