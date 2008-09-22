@@ -37,3 +37,6 @@ print("row:" + dir(row));
 each(rs, function(r) {
 	print(r.bug_type + "," + r.track_id + "," + r.case_id);
 });
+
+rs.close();
+conn.close();
