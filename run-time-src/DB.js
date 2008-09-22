@@ -54,6 +54,12 @@ function connect(url, user, password) {
 var Connection = extend(function(conn){
 	    this.o = conn;
 	}, {
+	
+	/**
+	 get or set connection auto commit;
+	 
+	 @return boolean
+	*/
     autoCommit: function(f) {
         if(typeof(f) == undefined) {
             return this.o.getAutoCommit();
@@ -62,6 +68,29 @@ var Connection = extend(function(conn){
         }
     },
 
+    /**
+        execute a query SQL, the named parameter is supported. 
+        
+    Example:
+       <pre>
+        <code>
+	db.driver('org.sqlite.JDBC');
+	var conn = db.connect("jdbc:sqlite:test.db");
+	var rs = conn.select("select * from person where age > $age",
+	                     {age:20}
+	                     );
+	var row = rs.row();
+	print("row:" + dir(row)); //
+	each(rs, function(r) {
+	    print(r.name + "," + r.age);
+	});
+	rs.close();
+	conn.close();
+        </code>
+        </pre>        
+        
+        @return ResultSet
+    */
     select: function(sql, param){
         var w = formatSQL(sql, param);
         var pstm = this.o.prepareStatement(w.sql, 
@@ -74,6 +103,9 @@ var Connection = extend(function(conn){
         return new ResultSet(pstm, result);
     },
     
+    /**
+        execute a update sql, the named parameter is supported. 
+    */    
     execute: function(sql, param){
         var w = formatSQL(sql, param);
         var pstm = this.o.prepareStatement(w.sql);
@@ -83,14 +115,23 @@ var Connection = extend(function(conn){
         return result;    
     },
     
+    /**
+        close
+    */     
     close: function(){
         this.o.close();
     },
     
+    /**
+        commit
+    */     
     commit: function(){
         this.o.commit();
     },
     
+    /**
+        rollback
+    */     
     rollback: function(){
         this.o.rollback();
     },
@@ -132,6 +173,9 @@ var ResultSet = extend(ResultSet, {
         return cls;
     },
     
+    /**
+        next
+    */     
     next: function(){
         if(this.o.next() === false){
             throw "StopIterator";
@@ -139,14 +183,24 @@ var ResultSet = extend(ResultSet, {
         return this.dataWrapper;
     }, 
     
+    
+    /**
+        hasNext
+    */     
     hasNext: function(){
         return this.o.next();
     },
     
+    /**
+        row
+    */     
     row: function(){
         return this.dataWrapper;
     },
     
+    /**
+        close
+    */     
     close: function() {
         this.o.close();
         this.pstm.close();

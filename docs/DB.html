@@ -1,0 +1,212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head><title>run-time-src\DB.js--doc</title><link rel="stylesheet" href="screen.css" type="text/css" media="screen"><meta http-equiv='Content-Type' content='text/html; charset=UTF-8' /></head><body><div>
+<table with='98%'><tr><td width='18%' valign='top'>
+<div class='fn_index'>
+<h3>File list</h3>
+<ul>
+<li><a href='Browser.html'>Browser.js</a>
+<li><a href='DB.html'>DB.js</a>
+<li><a href='File.html'>File.js</a>
+<li><a href='Lang.html'>Lang.js</a>
+<li><a href='Logging.html'>Logging.js</a>
+<li><a href='Runtime.html'>Runtime.js</a>
+<li><a href='Socket.html'>Socket.js</a>
+<li><a href='UnitTest.html'>UnitTest.js</a>
+</ul>
+<h3>Global function</h3>
+<ul>
+<li><a href='#connect'>connect(url, user, password)</a></li>
+<li><a href='#driver'>driver(d)</a></li>
+</ul>
+<h3>Class List</h3>
+<ul>
+<li><a href='#cls_Connection'>Connection</a></li>
+<ul>
+<li><a href='#autoCommit'>autoCommit(f)</a></li>
+<li><a href='#close'>close()</a></li>
+<li><a href='#commit'>commit()</a></li>
+<li><a href='#execute'>execute(sql, param)</a></li>
+<li><a href='#rollback'>rollback()</a></li>
+<li><a href='#select'>select(sql, param)</a></li>
+</ul>
+<li><a href='#cls_ResultSet'>ResultSet</a></li>
+<ul>
+<li><a href='#close'>close()</a></li>
+<li><a href='#hasNext'>hasNext()</a></li>
+<li><a href='#next'>next()</a></li>
+<li><a href='#row'>row()</a></li>
+</ul>
+</ul>
+</div>
+</td><td with='80%'>
+<div class='content'>
+<div class='ctext'></div>
+<div class='g_fun'><h3>Global function</h3>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>connect</span>
+(<span class='fn_arg'>url, user, password</span>)
+&nbsp;return none
+</div>
+<div class='ctext'>
+    Attempts to establish a connection to the given database URL.
+</div>
+</div>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>driver</span>
+(<span class='fn_arg'>d</span>)
+&nbsp;return none
+</div>
+<div class='ctext'>
+    load the jdbc driver.
+</div>
+</div>
+</div>
+<div class='cls'><h3>Class Connection</h3>
+<div class='ctext'>
+ 
+ A connection (session) with a specific database. SQL statements are executed 
+ and results are returned within the context of a connection.
+  
+  
+</div>
+<div class='pub_fn'><h3>Public method</h3>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>autoCommit</span>
+(<span class='fn_arg'>f</span>)
+&nbsp;return boolean
+</div>
+<div class='ctext'>
+	 get or set connection auto commit;
+	 
+	 
+	</div>
+</div>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>close</span>
+(<span class='fn_arg'></span>)
+&nbsp;return none
+</div>
+<div class='ctext'>
+        close
+    </div>
+</div>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>commit</span>
+(<span class='fn_arg'></span>)
+&nbsp;return none
+</div>
+<div class='ctext'>
+        commit
+    </div>
+</div>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>execute</span>
+(<span class='fn_arg'>sql, param</span>)
+&nbsp;return none
+</div>
+<div class='ctext'>
+        execute a update sql, the named parameter is supported. 
+    </div>
+</div>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>rollback</span>
+(<span class='fn_arg'></span>)
+&nbsp;return none
+</div>
+<div class='ctext'>
+        rollback
+    </div>
+</div>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>select</span>
+(<span class='fn_arg'>sql, param</span>)
+&nbsp;return ResultSet
+</div>
+<div class='ctext'>
+        execute a query SQL, the named parameter is supported. 
+        
+    </div>
+<div class='example'><h4>Example:</h4>
+       <pre>
+        <code>
+	db.driver('org.sqlite.JDBC');
+	var conn = db.connect("jdbc:sqlite:test.db");
+	var rs = conn.select("select * from person where age > $age",
+	                     {age:20}
+	                     );
+	var row = rs.row();
+	print("row:" + dir(row)); //
+	each(rs, function(r) {
+	    print(r.name + "," + r.age);
+	});
+	rs.close();
+	conn.close();
+        </code>
+        </pre>        
+        
+        
+    </div>
+</div>
+</div>
+</div>
+<div class='cls'><h3>Class ResultSet</h3>
+<div class='ctext'>
+ 
+  
+  
+</div>
+<div class='pub_fn'><h3>Public method</h3>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>close</span>
+(<span class='fn_arg'></span>)
+&nbsp;return none
+</div>
+<div class='ctext'>
+        close
+    </div>
+</div>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>hasNext</span>
+(<span class='fn_arg'></span>)
+&nbsp;return none
+</div>
+<div class='ctext'>
+        hasNext
+    </div>
+</div>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>next</span>
+(<span class='fn_arg'></span>)
+&nbsp;return none
+</div>
+<div class='ctext'>
+        next
+    </div>
+</div>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>row</span>
+(<span class='fn_arg'></span>)
+&nbsp;return none
+</div>
+<div class='ctext'>
+        row
+    </div>
+</div>
+</div>
+</div>
+</div>
+</td></tr></table>
+</div></body></html>
