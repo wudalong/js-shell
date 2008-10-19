@@ -469,16 +469,17 @@ Lang.fn = Lang.prototype = {
                each(after_global, function(e){
                    if(grep(function(i){return i === e;}, before_global).length
                       ==0){
-                       print("!!!Waring!!! '" + e + "' is exported to global" + 
-                             " by " + module) 
+                       printerr("!!!Waring!!! '" + e + "' is exported to global" + 
+                             " by " + module + "\n") 
                    }
                })
            }
            
            return scope;
        }catch(e) {
-           print("import '" + module  + "' error:")
-           print(e.toString())
+           printerr("import '" + module  + "' error:")
+           printerr(e.toString())
+           printerr("\n")
        }
     },
     

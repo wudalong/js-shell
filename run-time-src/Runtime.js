@@ -26,6 +26,12 @@ function $loadcoding(model) {
     return readFile(model, 'utf-8');
 }
 
+if (!this.printerr){
+    function printerr(msg){
+        print(msg);     
+    }
+}
+
 load(['Lang']);
 (new Lang()).__importToScopt__(this);
 
