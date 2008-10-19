@@ -1,5 +1,8 @@
 #summary 历史版本说明
 
+# *js-shell-0.2.1019* -- 2008-10-19 14:05
+  * add printerr function
+
 # *js-shell-0.2.0921* -- 2008-09-21 11:05
   * add tempFile
 
