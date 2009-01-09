@@ -2,6 +2,13 @@
 
 历史更新
 
+正式发布0.3 
+  # 2009-01-09 发布0.3 
+   * DB library -- 封装了jdbc的部分接口 
+   * Socket library -- 封装了Java NIO部分方法 
+   * Logging library -- 
+   * isArray, len 在Lang中方法. 
+
   # 2008-09-01 发布第一个稳定版本0.2
    * 初步定义了js包的开发规范, 和import方式.
    * 定义了一些通用的方法到Lang lib.
