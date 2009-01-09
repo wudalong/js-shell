@@ -1,5 +1,12 @@
 #summary 历史版本说明
 
+# *js-shell-0.3* -- 2009-01-09 14:05
+  * DB library --  封装了jdbc的部分接口
+  * Socket library -- 封装了Java NIO部分方法
+  * Logging library --
+  * isArray, len 在Lang中方法.
+  * 正式发布0.3
+
 # *js-shell-0.2.1019* -- 2008-10-19 14:05
   * add printerr function
 
