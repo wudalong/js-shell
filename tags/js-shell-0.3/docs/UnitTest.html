@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head><title>run-time-src\UnitTest.js--doc</title><link rel="stylesheet" href="screen.css" type="text/css" media="screen"><meta http-equiv='Content-Type' content='text/html; charset=UTF-8' /></head><body><div>
+<table with='98%'><tr><td width='18%' valign='top'>
+<div class='fn_index'>
+<h3>File list</h3>
+<ul>
+<li><a href='Browser.html'>Browser.js</a>
+<li><a href='DB.html'>DB.js</a>
+<li><a href='File.html'>File.js</a>
+<li><a href='Lang.html'>Lang.js</a>
+<li><a href='Logging.html'>Logging.js</a>
+<li><a href='Runtime.html'>Runtime.js</a>
+<li><a href='Socket.html'>Socket.js</a>
+<li><a href='UnitTest.html'>UnitTest.js</a>
+</ul>
+<h3>Global function</h3>
+<ul>
+<li><a href='#run_suite'>run_suite(path, context)</a></li>
+</ul>
+<h3>Class List</h3>
+<ul>
+<li><a href='#cls_TestCaseContext'>TestCaseContext</a></li>
+<ul>
+<li><a href='#test'>test(name, testCase, setUp, tearDown, scope)</a></li>
+</ul>
+<li><a href='#cls_TestResult '>TestResult </a></li>
+<ul>
+<li><a href='#fail'>fail(name, state, times, msg)</a></li>
+<li><a href='#pass'>pass(name, state, times, msg)</a></li>
+<li><a href='#summary'>summary()</a></li>
+</ul>
+<li><a href='#cls_TestRunner'>TestRunner</a></li>
+<ul>
+<li><a href='#run'>run(suite, result)</a></li>
+</ul>
+<li><a href='#cls_TestSuite'>TestSuite</a></li>
+<ul>
+<li><a href='#add_case'>add_case(tc)</a></li>
+<li><a href='#load_cases'>load_cases()</a></li>
+</ul>
+<li><a href='#cls_TextTestResult '>TextTestResult </a></li>
+<ul>
+</ul>
+</ul>
+</div>
+</td><td with='80%'>
+<div class='content'>
+<div class='ctext'></div>
+<div class='g_fun'><h3>Global function</h3>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>run_suite</span>
+(<span class='fn_arg'>path, context</span>)
+&nbsp;return none
+</div>
+<div class='ctext'>
+  a simple way to run a test suite.
+  
+  </div>
+<div class='example'><h4>Example:</h4>
+  <pre><code>
+  var ut = __import__('UnitTest', null, {});  //import Unittest library.
+  
+  ut.run_suite('C:\js-shell\unittest');   //run all unitest in dir.
+  
+  </code></pre>
+</div>
+</div>
+</div>
+<div class='cls'><h3>Class TestCaseContext</h3>
+<div class='ctext'>
+ 
+
+ It's defined a testcase running context for every test suit file.
+</div>
+<div class='pub_fn'><h3>Public method</h3>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>test</span>
+(<span class='fn_arg'>name, testCase, setUp, tearDown, scope</span>)
+&nbsp;return none
+</div>
+<div class='ctext'>
+	       run a testCase; <br/>
+param: name -- testname used to print log.<br/>
+param: testCase -- special test case, a function or object. if it's 
+	                       a object. every function of named starts with 
+	                       'test_' will be run as test case.<br/>
+param: setUp -- <br/>
+param: tearDown -- <br/>
+param: scope -- the testcase running context, default is current 
+	                       testcase object.
+	                    
+	    </div>
+</div>
+</div>
+</div>
+<div class='cls'><h3>Class TestResult </h3>
+<div class='ctext'>
+ 
+    This class is used to save information about which tests have succeeded
+    and which have failed.
+</div>
+<div class='pub_fn'><h3>Public method</h3>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>fail</span>
+(<span class='fn_arg'>name, state, times, msg</span>)
+&nbsp;return none
+</div>
+<div class='ctext'>
+        call back when failed a test case, can output log information in it.
+        default is a empty function in TestResult.
+    </div>
+</div>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>pass</span>
+(<span class='fn_arg'>name, state, times, msg</span>)
+&nbsp;return none
+</div>
+<div class='ctext'>
+        call back when passed a test case, can output log information in it.
+        default is a empty function in TestResult.
+    </div>
+</div>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>summary</span>
+(<span class='fn_arg'></span>)
+&nbsp;return none
+</div>
+<div class='ctext'>
+        generate tests summary. current is empty function.
+    </div>
+</div>
+</div>
+</div>
+<div class='cls'><h3>Class TestRunner</h3>
+<div class='ctext'>
+    
+    the class is get testcase from suite, and initial a TestCase context.
+</div>
+<div class='pub_fn'><h3>Public method</h3>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>run</span>
+(<span class='fn_arg'>suite, result</span>)
+&nbsp;return none
+</div>
+<div class='ctext'>
+        run a testsuite.
+        
+    </div>
+</div>
+</div>
+</div>
+<div class='cls'><h3>Class TestSuite</h3>
+<div class='ctext'>
+    
+    
+    this class used to load testcase from JS files. managed the loading rules
+    of testcase. 
+</div>
+<div class='pub_fn'><h3>Public method</h3>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>add_case</span>
+(<span class='fn_arg'>tc</span>)
+&nbsp;return none
+</div>
+<div class='ctext'>
+           add testcase pattern or testcase file.
+           <br/>           
+param: tc -- a testfile or pattern to match test file.
+           
+           </div>
+<div class='example'><h4>Example:</h4>
+           <pre><code>
+		    var  suite = new TestSuite('Simple suite', test_root)
+		    suite.add_case('test_*.js') //add test file pattern. 
+		    suite.add_case('runtime.js')  //add a test file.
+           </code></pre> 
+        </div>
+</div>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>load_cases</span>
+(<span class='fn_arg'></span>)
+&nbsp;return Iterator
+</div>
+<div class='ctext'>
+            load cases JS condig from suite directory.
+            
+            
+        </div>
+</div>
+</div>
+</div>
+<div class='cls'><h3>Class TextTestResult </h3>
+<div class='ctext'>
+ 
+ TestTestResult output result of tests in the console. 
+</div>
+<div class='pub_fn'><h3>Public method</h3>
+</div>
+</div>
+</div>
+</td></tr></table>
+</div></body></html>

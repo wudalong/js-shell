@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head><title>run-time-src\File.js--doc</title><link rel="stylesheet" href="screen.css" type="text/css" media="screen"><meta http-equiv='Content-Type' content='text/html; charset=UTF-8' /></head><body><div>
+<table with='98%'><tr><td width='18%' valign='top'>
+<div class='fn_index'>
+<h3>File list</h3>
+<ul>
+<li><a href='Browser.html'>Browser.js</a>
+<li><a href='DB.html'>DB.js</a>
+<li><a href='File.html'>File.js</a>
+<li><a href='Lang.html'>Lang.js</a>
+<li><a href='Logging.html'>Logging.js</a>
+<li><a href='Runtime.html'>Runtime.js</a>
+<li><a href='Socket.html'>Socket.js</a>
+<li><a href='UnitTest.html'>UnitTest.js</a>
+</ul>
+<h3>Global function</h3>
+<ul>
+</ul>
+<h3>Class List</h3>
+<ul>
+<li><a href='#cls_File'>File</a></li>
+<ul>
+<li><a href='#abs_path'>abs_path()</a></li>
+<li><a href='#close'>close()</a></li>
+<li><a href='#isDir'>isDir()</a></li>
+<li><a href='#isFile'>isFile()</a></li>
+<li><a href='#mkdirs'>mkdirs()</a></li>
+<li><a href='#readLine'>readLine()</a></li>
+<li><a href='#walker'>walker(fn)</a></li>
+<li><a href='#writeLine'>writeLine(s)</a></li>
+</ul>
+</ul>
+</div>
+</td><td with='80%'>
+<div class='content'>
+<div class='ctext'></div>
+<div class='g_fun'><h3>Global function</h3>
+</div>
+<div class='cls'><h3>Class File</h3>
+<div class='ctext'>
+ 
+  create file object.
+  
+  
+  
+</div>
+<div class='pub_fn'><h3>Public method</h3>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>abs_path</span>
+(<span class='fn_arg'></span>)
+&nbsp;return none
+</div>
+<div class='ctext'>
+      abs_path
+    </div>
+</div>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>close</span>
+(<span class='fn_arg'></span>)
+&nbsp;return none
+</div>
+<div class='ctext'>
+      关闭已打开的文件.
+    </div>
+</div>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>isDir</span>
+(<span class='fn_arg'></span>)
+&nbsp;return none
+</div>
+<div class='ctext'>
+      isDir
+    </div>
+</div>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>isFile</span>
+(<span class='fn_arg'></span>)
+&nbsp;return none
+</div>
+<div class='ctext'>
+      isFile
+    </div>
+</div>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>mkdirs</span>
+(<span class='fn_arg'></span>)
+&nbsp;return none
+</div>
+<div class='ctext'>
+      mkdirs
+    </div>
+</div>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>readLine</span>
+(<span class='fn_arg'></span>)
+&nbsp;return String
+</div>
+<div class='ctext'>
+从文件中读入一行文本.
+     
+    </div>
+<div class='example'><h4>Example:</h4>
+        <pre><code>
+            //必须以读方�?打开一个文件, 默认为'r'模�?
+            var f = new File('test.js', 'r')
+            var line = f.readLine()
+            print(line)
+            f.close() 
+        </code><pre>
+ 
+     </div>
+</div>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>walker</span>
+(<span class='fn_arg'>fn</span>)
+&nbsp;return none
+</div>
+<div class='ctext'>
+      walker directory;
+    </div>
+</div>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>writeLine</span>
+(<span class='fn_arg'>s</span>)
+&nbsp;return none
+</div>
+<div class='ctext'>
+在文件中写入一行纪录.
+	 
+	</div>
+<div class='example'><h4>Example:</h4>
+	    The file must in write mode.
+	   <pre>
+	    <code>
+            var f = new File('test.js', 'w')
+            f.writeLine('Hello world') 
+            f.close() 
+	    </code>
+	    </pre>
+	 </div>
+</div>
+</div>
+</div>
+</div>
+</td></tr></table>
+</div></body></html>

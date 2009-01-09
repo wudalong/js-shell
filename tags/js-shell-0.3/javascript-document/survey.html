@@ -1,0 +1,550 @@
+<html><head><title>JavaScript: A Survey of the Language</title>
+
+   
+<style>
+td {background-color: white; border: black solid 1pt; padding-left: 10px;
+    padding-right: 10px; vertical-align: top;}
+table {margin: 10px; border: 0px; cellpadding: 0px;}
+p {margin: 10px}
+pre {margin-left: 40px}
+.warning {background-color: lightpink}
+</style></head><body bgcolor="linen">
+<h1 class="title" align="center">A Survey of the JavaScript Programming Language</h1>
+<p class="center" align="center"><a href="mailto:douglas@crockford.com">Douglas
+Crockford</a><br>
+  <a href="http://www.crockford.com/" target="_top">www.crockford.com</a></p>
+<p class="center" align="center">© 2002 Douglas Crockford</p>
+<h1>Overview</h1>
+<p>This document is an introduction to the <a href="http://www.crockford.com/javascript">JavaScript Programming
+Language</a> for professional programmers. It is a small language, so if
+you are familiar with other languages, then this won't be too
+demanding.</p>
+<p>JavaScript is not Java. They are two very different languages.
+JavaScript is not a subset of Java. It is not interpreted Java. (Java
+is interpreted Java!) JavaScript shares C-family syntax with Java, but
+at a deeper level it shows greater similarity to the languages <a href="http://javascript.crockford.com/little.html">Scheme</a> and <a href="http://research.sun.com/self/language.html">Self</a>.
+It is a small language, but it is also a suprisingly powerful and
+expressive language.You should take a look at it. You will find that it
+is not a toy language, but a full programming language with many
+distinctive properties.</p>
+<p>JavaScript is a regular language which won't take much time to
+learn. It is better suited to some tasks, such as client programming,
+than Java is. In my own practice, I have found that working with
+JavaScript has made me a better Java programmer because it introduced
+me to a useful set of dynamic techniques.</p>
+<p>When JavaScript was first introduced, I dismissed it as being not
+worth my attention. Much later, I took another look at it and
+discovered that hidden in the browser was an excellent programming
+language. My initial attitudes were based on the initial positioning of
+JavaScript by Sun and Netscape. They made many misstatements about
+JavaScript in order to avoid positioning JavaScript as a competitor to
+Java. Those misstatements continue to echo in the scores of badly
+written JavaScript books aimed at the dummies and amateurs market.</p>
+<p></p>
+<h1>History</h1>
+<p><a href="http://java.sun.com/pr/1995/12/pr951204-03.html">JavaScript</a> was developed by Brendan Eich
+at <a href="http://www.netscape.com/">Netscape</a>
+as the in-page scripting language
+for <a href="http://wp.netscape.com/security/bugbounty.html">Navigator
+2</a>. It is a remarkably expressive dynamic programming language.
+Because of its linkage to web browsers, it instantly became massively
+popular. It never got a trial period in which it could be corrected
+and polished based on actual use. The language is powerful and
+flawed.</p>
+<p>This document describes ECMAScript Edition 3 (aka JavaScript 1.5).
+Microsoft and Netscape are developing a static revision which does
+not correct the language's flaws. That new language is not JavaScript and  is beyond the
+scope of this document.</p>
+<h1>Data Types</h1>
+<p>JavaScript contains a small set of data types. It has the three
+primitive types <i>boolean</i>, <i>number</i>, and <i>string</i> and
+the special
+values <tt>null</tt> and <tt>undefined</tt>.
+Everything else is variations on the <i>object</i> type.</p>
+<p>Boolean has two
+values: <tt>true</tt> and <tt>false</tt>.</p>
+<p>Number is 64-bit floating point, similar to
+Java's <tt>double</tt> and <tt>Double</tt>.
+There is no integer type.  Division between two
+integers may produce a fractional result. Number also includes
+the special values <tt>NaN</tt> (not a number) and
+<tt>Infinity</tt>.</p>
+<p>String is a sequence of zero or more Unicode characters. There is
+no separate character type. A character is represented as a string of
+length 1. Literal strings are quoted using the<tt> '
+</tt>or<tt> " </tt> characters. The quote
+characters can be used interchangeably, but they have to match.</p>
+<pre class="js">'This is a string.'</pre>
+<pre class="js">"Isn't this a string? Yes!"</pre>
+<pre class="js">'A' // The character A</pre>
+<pre class="js">"" // An empty string</pre>
+<p>Escapement is done with the <tt>\</tt>
+character, like in Java. Strings are immutable. Strings have
+a <tt>length</tt>
+member which is used to determine the number of characters in the
+string.</p>
+<pre>var s = "Hello World!";
+s.length == 12</pre>
+<p>It is possible to  add methods to the simple types. So, for example, you can add an <tt>int()</tt> method to all numbers, so that <tt>Math.PI.int()</tt> produces <tt>3</tt>.</p>
+<p>An implementation may provide other types, such as Dates and
+Regular Expressions, but these are really just objects. Everything
+else is just objects.</p>
+<h2 class="major">Objects</h2>
+<p>JavaScript has very nice notational conveniences for manipulating hashtables. </p>
+<pre>var myHashtable = {};</pre>
+<p>This statement makes a new hashtable and assigns it to a new local
+variable. JavaScript is loosely typed, so we don't use type names in
+declarations. We use subscript notation to add, replace, or retrieve
+elements in the hashtable.</p>
+<pre>myHashtable["name"] = "Carl Hollywood";</pre>
+<p>There is also a dot notation which is a little more convenient.</p>
+<pre>myHashtable.city = "Anytown";</pre>
+<p>The dot notation can be used when the subscript is a string constant in the form of a legal identifier.  Because
+of an error in the language definition, reserved words cannot be used
+in the dot notation, but they can be used in the subscript notation.</p>
+<p>You can see that JavaScript's hashtable notation is very similar to
+Java's object and array notations. JavaScript takes this much farther:
+objects and hashtables are the same thing, so I could have written</p>
+<pre>var myHashtable = new Object();</pre>
+<p>and the result would have been exactly the same.</p>
+<p>There is an enumeration capability built into the <tt>for</tt> statement.</p>
+<pre>for (var n in myHashtable) {
+    if (myHashtable.hasOwnProperty(n)) {
+        document.writeln("&lt;p&gt;" + n + ": " + myHashtable[n] + "&lt;/p&gt;");
+    }
+}</pre>
+<p>The result will be</p>
+<pre>&lt;p&gt;name: Carl Hollywood&lt;/p&gt;
+&lt;p&gt;city: Anytown&lt;/p&gt;</pre>
+<p>An object is a referenceable container of name/value pairs. The
+names are strings (or other elements such as numbers that are
+converted to strings). The values can be any of the data types,
+including other objects. Objects are usually implemented as
+hash-tables, but none of the hash-table nature (such as hash
+functions or rehashing methods) is visible.</p>
+<p>Objects can easily be nested inside of other objects, and
+expressions can reach into the inner objects.</p>
+<pre>this.div = document.body.children[document.body.children.length - 1];</pre>
+<p>In the object literal notation, an object description is a set of
+comma-separated name/value pairs inside curly braces. The names can
+be identifiers or strings followed by a colon.  Because
+of an error in the language definition, reserved words cannot be used
+in the identifier form, but they can be used in the string form. The values can be literals or expressions of any type.</p>
+<pre>var myObject = {name: "Jack B. Nimble", 'goto': 'Jail', grade: 'A', level: 3};</pre>
+<pre>return {
+    event: event,
+    op: event.type,
+    to: event.srcElement,
+    x: event.clientX + document.body.scrollLeft,
+    y: event.clientY + document.body.scrollTop};
+</pre>
+<pre>emptyObject = {};</pre>
+<p>JavaScript's object literals are the basis of the <a href="http://www.json.org/">JSON</a> 
+  data interchange format.</p>
+<p>New members can be added to any object at any time by assignment.</p>
+<pre>myObject.nickname = 'Jackie the Bee';</pre>
+<p>Arrays and functions are implemented as objects.</p>
+<h2 class="major">Arrays</h2>
+<p>Arrays in JavaScript are also hashtable objects. This makes them
+very well suited to sparse array applications. When you construct an
+array, you do not need to declare a size. Arrays grow automatically,
+much like Java vectors. The values are located by a key, not by an
+offset. This makes
+JavaScript arrays very convenient to use, but not well suited for
+applications in numerical analysis.</p>
+<p>The main difference between objects and arrays is the <tt>length</tt> property. The <tt>length</tt> property is always 1 larger than the largest integer key in the array. There are two ways to make a new array:</p>
+<pre>var myArray = [];
+var myArray = new Array();
+</pre>
+<p>Arrays are not typed. They can contain numbers, strings, booleans, objects, functions, and arrays.You can mix strings and
+  numbers and objects in the same array. You can use arrays as general nested
+  sequences, much as s-expressions. The first index in an array is usually
+  zero.</p>
+<p>When a new item
+is added to an array and the subscript is an integer that is larger than the
+current value of <tt>length</tt>,
+then the <tt>length</tt> is changed to the
+subscript plus one. This is a convenience feature that makes it easy
+to use a <tt>for</tt> loop to go through the
+elements of an array.</p>
+<p>Arrays have a literal notation, similar to that for objects.</p>
+<pre>myList = ['oats', 'peas', 'beans', 'barley'];
+
+emptyArray = [];
+
+month_lengths = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+slides = [
+    {url: 'slide0001.html', title: 'Looking&nbsp;Ahead'},
+    {url: 'slide0008.html', title: 'Forecast'},
+    {url: 'slide0021.html', title: 'Summary'}
+];
+</pre>
+<p>A new item can be added to an array by assignment.</p>
+<pre>a[i + j] = f(a[i], a[j]);</pre>
+<h1>Functions</h1>
+<p>Functions in JavaScript look like C functions, except that they are declared with the <tt>function</tt>
+keyword instead of a type. When calling a function, it is not required
+that you pass a fixed number of parameters. Excess parameters are
+ignored. Missing parameters are given the value <tt>undefined</tt>. This makes it easy to write functions that deal with optional arguments.</p>
+<p>A function has access to an <tt>arguments</tt> array. It contains
+all of the parameters that were actually sent by the caller. It makes
+it easy to deal with functions taking a variable number of arguments.
+For example,</p>
+<pre>function sum() {  // Take any number of parameters and return the sum
+    var total = 0;
+    for (var i = 0; i &lt; arguments.length; ++i) {
+        total += arguments[i];
+    }
+    return total;
+}</pre>
+<p>JavaScript has inner functions, which serve the same purpose as
+inner classes in Java, but are much lighter. JavaScript also has
+anonymous functions, which act as lambda expressions.
+Functions have lexical scoping. </p>
+<p>Functions are first class objects in JavaScript. That means that
+they can be stored in objects and passed as arguments to functions.</p>
+<p> </p>
+<h2>Definition</h2>
+<p>There are three notations for defining functions: function
+statement, function operator, and function constructor.</p>
+<h3>Function statement</h3>
+<p>The function statement creates a named function within the current
+scope.</p>
+<blockquote>
+  <p><tt>function </tt><i>name</i><tt>(</tt><i>argumentlist</i><tt>)</tt>
+   <i>block</i>
+
+</p>
+</blockquote>
+<p>Functions can be nested. See Closures. An <i>argumentlist</i> is
+zero or more argument names, separated with commas. A <i>block</i> is
+a list of zero or more statements enclosed in <tt>{
+}</tt>.</p>
+<p>The function statement is a shorthand for the function operator
+form:</p>
+<blockquote>
+  <p><tt>var </tt><i>name</i><tt>
+   = function </tt><i>name</i><tt> (</tt><i>argumentlist</i><tt>)
+</tt><i>block</i><tt> ;</tt>
+
+</p>
+</blockquote>
+<h3>Function operator</h3>
+<p>The function operator is a prefix operator that produces a
+function object. It looks similar to the function statement.</p>
+<blockquote>
+  <p><tt>function </tt><i>name</i><tt>(</tt><i>argumentlist</i><tt>)</tt>
+   <i>block</i>
+
+</p>
+</blockquote>
+<p>The <i>name</i> is optional. If it is provided, then it can be used by the
+  function body to call itself recursively. It can also be used to access the
+  function's object members  (except on IE). If the
+  name is omitted, then it is an anonymous function.</p>
+<p>The function operator is commonly used to assign functions to a
+prototype.</p>
+<p>The function operator can also be used to define functions
+in-place, which is handy when writing callbacks.</p>
+<h3>Function constructor</h3>
+<p>The function constructor takes strings containing the arguments
+and body, and produces a function object.</p>
+<blockquote>
+  <p><tt>new Function(</tt><i>strings</i>...<tt>)</tt>
+
+</p>
+</blockquote>
+<p>Do not use this form. The quoting conventions of the language
+make it very difficult to correctly express a function body as a
+string. In the string form, early error checking cannot be done. It
+is slow because the compiler must be invoked every time the
+constructor is called. And it is wasteful of memory because each
+function requires its own independent implementation.</p>
+<h2>Objects and <tt>this</tt></h2>
+<p>A function is an object. It can contain members just as other objects. 
+  This allows a function to contain its own data tables. It also allows 
+  an object to act as a <i>class</i>, containing a constructor and a set 
+  of related methods.</p>
+<p>A function can be a member of an object. When a function is a
+member of an object, it is called a <i>method</i>. There is a special
+variable, called <tt>this</tt> that is set to the
+object when a method of the object is called.</p>
+<p>For example, in the expression <tt>foo.bar()</tt>,
+the <tt> this</tt> variable is set to the object <tt>foo</tt>
+as a sort of extra argument for the function <tt>bar</tt>.
+The function <tt>bar</tt> can then refer to <tt>this</tt>
+to access the object of interest.</p>
+<p>In a deeper expression like <tt>do.re.mi.fa()</tt>,
+the <tt>this</tt> variable is set to the object <tt>do.re.mi</tt>,
+not to the object <tt>do</tt>. In a simple
+function call, <tt> this</tt> is set to the Global
+Object (aka <tt>window</tt>), which is not very
+useful.  The correct behavior should have been
+to preserve the current value of <tt>this</tt>,
+particularly when calling inner functions.</p>
+<h2>Constructor</h2>
+<p>Functions which are used to initialize objects are called
+<i>constructors</i>. The calling sequence for a constructor is
+slightly different than for ordinary functions. A constructor is
+called with the <tt>new</tt> prefix:</p>
+<blockquote>
+  <p><tt>new </tt><i>Constructor</i><tt>(</tt><i>parameters...</i><tt>)</tt> </p>
+</blockquote>
+<p>By convention, the name of a constructor is written with an
+initial capital.</p>
+<p>The <tt>new</tt> prefix changes the meaning of
+the <tt>this</tt> variable. Instead of its usual
+value, <tt>this</tt> will be the new object. The
+body of the constructor function will usually initialize the object's
+members. The constructor will return the new object, unless
+explicitly overridden with the <tt>return</tt>
+statement.</p>
+<p>The constructed object will contain a secret prototype link field, which contains
+  a reference to the constructor's <tt>prototype</tt> member.</p>
+<h2>Prototype</h2>
+<p>Objects contain a hidden link property. This link points to the <tt>prototype</tt>
+member of the constructor of the object.</p>
+<p>When items are accessed from an object by the dot notation or the
+subscript notation, if the item is not found in the object then the
+link object is examined. If it is not found in the link object, and if the link object
+itself has a link object, then that link object is examined. If the
+chain of link objects is exhausted, then <tt>undefined</tt>
+is returned.</p>
+<p>This use of prototype link chains provides a sort of
+inheritance.</p>
+<p>Members can be added to the <tt>prototype</tt> by assignment. Here we
+define a new class <tt>Demo</tt>, which inherits from class <tt>Ancestor</tt>, and adds
+its own method <tt>foo</tt>.</p>
+<pre>function Demo() {}
+Demo.prototype = new Ancestor();
+Demo.prototype.foo = function () {};</pre>
+<h2>Vars</h2>
+<p>Named variables are defined with the <tt>var</tt>
+statement. When used inside of a function, <tt>var</tt>
+defines variables with <i>function-scope</i>. The vars are not accessible
+from outside of the function. There is no other granularity of scope
+in JavaScript. In particular, there is no <i>block-scope</i>.</p>
+<p>Any variables used in a function which are not explicitly defined
+as <tt>var</tt> are assumed to belong to an outer
+scope, possibly to the Global Object.</p>
+<p>Vars which are not explicitly initialized are given the value <tt>undefined</tt>.</p>
+<p>Vars are not typed. A var can contain a reference to an object, or
+a string or a number or a boolean or <tt>null</tt>
+or <tt>undefined</tt>.</p>
+<p>A new set of vars is made every time the function is called. This allows functions 
+  to be recursive.</p>
+<h2>Closure</h2>
+<p>Functions can be defined inside of other functions. The inner
+function has access to the vars and parameters of the outer function. If a reference
+to an inner function survives (for example, as a callback function),
+the outer function's vars also survive.</p>
+<h2>Return</h2>
+<p>JavaScript does not have a <tt>void</tt> type,
+so every function must return a value. The default value is <tt>undefined</tt>,
+except for constructors, where the default return value is <tt>this</tt>.</p>
+<h1>Statements</h1>
+<p>The set of named statements includes <tt>var</tt>,
+<tt>if</tt>, <tt>switch</tt>, <tt>for</tt>,
+<tt>while</tt>, <tt>do</tt>, <tt>break</tt>,
+<tt>continue</tt>, <tt>return</tt>,
+<tt>try</tt>, <tt>throw</tt>,
+and <tt>with</tt>. Most of them work the same as
+in other C-like languages.</p>
+<p>The <tt>var</tt> statement is a list of one or
+more variables names, separated by commas, with optional
+initialization expressions.</p>
+<pre>var a, b = window.document.body;</pre>
+<p>If the <tt>var</tt> statement appears outside
+of any function, it adds members to the Global Object. If it appears
+inside of a function, it defines local variables of the function.</p>
+<p>In <tt>if</tt> statements, <tt>while</tt>
+statements, <tt>do</tt> statements, and logical
+operators, JavaScript treats <tt>false</tt>, <tt>null</tt>,
+<tt>undefined</tt>, <tt>""</tt>
+(the empty string), and the number <tt>0</tt> as
+false. All other values are treated as <tt>true</tt>.</p>
+<p>The <tt>case</tt> labels in a <tt>switch</tt>
+statement can be expressions. They don't have to be constants. They can be strings.</p>
+<p>There are two forms of the <tt>for</tt> statement. The first is the common 
+  <code>(</code><var>init</var><code>;</code> <var>test</var><code>;</code> 
+  <var>inc</var><code>)</code> form. The second is an object iterator.</p>
+<pre>for (name in object) {
+    if (object.hasOwnProperty(name)) {
+        value = object[name];
+    }
+}</pre>
+<p>The block is executed for each <tt>name</tt> in
+the <tt>object</tt>. The order in which the names
+are produced is not guaranteed.</p>
+<p>Statements can have a label prefix, which is an identifier
+followed with a colon.</p>
+<p>The <tt><a href="http://yuiblog.com/blog/2006/04/11/with-statement-considered-harmful/">with</a></tt><a href="http://yuiblog.com/blog/2006/04/11/with-statement-considered-harmful/"> 
+  statement</a> should not be used.</p>
+<h1>Operators</h1>
+<p>JavaScript has a fairly large set of operators. Most of them work
+the same way as in other C-like languages. There are a few
+differences to watch out for.</p>
+<p>The <tt>+</tt> operator is used for both addition and concatenation. If
+either of the operands is a string, it concatenates. This
+can cause errors. For example, <tt>'$' + 3 +
+4</tt> produces <tt>'$34'</tt>, not <tt>'$7'</tt>.</p>
+<p><tt>+</tt> can be used as a prefix operator,
+converting its string operand to a number.</p>
+<p><tt>!!</tt> can be used as a prefix operator, converting its operand to a boolean.</p>
+<p>The <tt>&amp;&amp;</tt> operator is commonly
+called <i>logical and</i>. It can also be called <i>guard</i>. If the
+first operand is <tt>false</tt>, <tt>null</tt>,
+<tt>undefined</tt>, <tt>""</tt> (the
+empty string), or the number <tt>0</tt> then
+it returns the first operand. Otherwise, it returns the second
+operand. This provides a convenient way to write a null-check:</p>
+<pre>var value = p &amp;&amp; p.name; /* The name value will
+only be retrieved from p if p has a value, avoiding an error. */</pre>
+<p>The <tt>||</tt> operator is commonly called
+<i>logical or</i>. It can also be called <i>default</i>. If the first
+operand is <tt>false</tt>, <tt>null</tt>,
+<tt>undefined</tt>, <tt>""</tt> (the
+empty string), or the number <tt>0</tt>, then
+it returns the second operand. Otherwise, it returns the first
+operand. This provides a convenient way to specify default
+values:</p>
+<pre>value = v || 10; /* Use the value of v, but if v
+doesn't have a value, use 10 instead. */</pre>
+<p>JavaScript supplies a set of bitwise and shift operators, but does
+not have an Integer type to apply them to. What happens is the Number
+operand (a 64-bit floating-point number) is converted to a 32-bit
+integer before the operation, and then converted back to floating
+point after the operation.</p>
+<p>In JavaScript, <tt>void</tt> is a prefix
+operator, not a type. It always returns <tt>undefined</tt>.
+This has very little value. I only mention it in case you accidently
+type <tt>void</tt> out of habit and are puzzled by
+the strange behavior.</p>
+<p>The <tt>typeof</tt> operator returns a string
+based on the type of its operand.</p>
+<p class="warning">Mistakes were made.</p>
+<table>
+  <tbody><tr>
+    <td>
+Object
+    </td>
+    <td>
+<tt>'object'</tt>
+    </td>
+  </tr>
+  <tr>
+    <td>
+Array
+    </td>
+    <td>
+<tt class="warning">'object'</tt>
+    </td>
+  </tr>
+  <tr>
+    <td>
+Function
+    </td>
+    <td>
+<tt>'function'</tt>
+    </td>
+  </tr>
+  <tr>
+    <td>
+String
+    </td>
+    <td>
+<tt>'string'</tt>
+    </td>
+  </tr>
+  <tr>
+    <td>
+Number
+    </td>
+    <td>
+<tt>'number'</tt>
+    </td>
+  </tr>
+  <tr>
+    <td>
+Boolean
+    </td>
+    <td>
+<tt>'boolean'</tt>
+    </td>
+  </tr>
+  <tr>
+    <td>
+<tt>null</tt>
+    </td>
+    <td>
+<tt class="warning">'object'</tt>
+    </td>
+  </tr>
+  <tr>
+    <td>
+<tt>undefined</tt>
+    </td>
+    <td>
+<tt>'undefined'</tt>
+    </td>
+  </tr>
+</tbody></table>
+<h1>Potpourri</h1>
+<h2>Global Object</h2>
+<p>The Global Object is the keeper of all of the functions and
+variables which were not defined inside of other functions and
+objects. Surprisingly, the Global Object does not have an explicit
+name in the language. Sometimes the <tt>this</tt>
+variable points at it, but often not. In the web browsers, <tt>window</tt>
+and <tt>self</tt> are members of the Global Object
+which point to the Global Object, thus giving an indirect way of
+addressing it.</p>
+<p>If a variable is accessed, but is not found in the current scope,
+it is looked for in the Global Object. If it is not found there, an
+error will result.</p>
+<p>The ECMAScript specification does not talk about the possibility
+of multiple Global Objects, or <i>contexts</i>, but browsers support
+this. Each window has its own Global Object.</p>
+<h2>Semicolon Insertion</h2>
+<p>One of the mistakes in the language is semicolon insertion. This
+is a technique for making semicolons optional as statement
+terminators. It is reasonable for IDEs and shell programs to do
+semicolon insertion. It is not reasonable for the language definition
+to require compilers to do it. Use semicolons.</p>
+<h2>Reserved Words</h2>
+<p>JavaScript is very heavy handed in its restrictions on reserved
+words. The reserved words are</p>
+<blockquote><tt>abstract<br>
+   boolean <b>break</b> byte<br>
+   <b>case</b> <b>catch</b> char class const <b>continue</b><br>
+   debugger <b>default</b> <b>delete</b> <b>do</b> double<br>
+   <b>else</b> enum export extends<br>
+   <b>false</b> final <b>finally</b> float <b>for</b> <b>function</b><br>
+   goto<br>
+   <b>if</b> implements import <b>in</b> <b>instanceof</b> int
+   interface<br>
+   long<br>
+   native <b>new null</b><br>
+   package private protected public<br>
+   <b>return</b><br>
+   short static super <b>switch</b> synchronized<br>
+   <b>this</b> <b>throw</b> throws transient <b>true try</b>
+   <b>typeof</b><br>
+   <b>var</b> volatile <b>void</b><br>
+   <b>while</b> <b>with</b></tt></blockquote>
+<p>Most of those words are not even used in the language. A reserved
+word cannot be used</p>
+<ol>
+
+  <li>As a name in literal object notation</li>
+  <li>As a member name in dot notation</li>
+  <li>As a function argument</li>
+  <li>As a <tt>var</tt></li>
+  <li>As an unqualified global variable</li>
+  <li>As a statement label</li>
+</ol>
+<p>There is no excuse for the first two restrictions. None. There is
+an excuse for the second two restrictions, but it is very weak.</p>
+
+</body></html>
