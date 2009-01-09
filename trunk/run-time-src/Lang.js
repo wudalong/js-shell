@@ -39,6 +39,7 @@ Lang.fn = Lang.prototype = {
     exports: ['extend', 'each',
               'grep', 'map', 'dir', '__import__',
               'cmp', 'min', 'max',
+              'isArray', 'len',
              ],
 
     __importToScopt__: function(scope){
@@ -230,6 +231,35 @@ Lang.fn = Lang.prototype = {
         }
         return m;
     },
+    
+    /**
+    check the object is a Array.
+    @return boolean
+    */        
+    isArray: function(obj) {
+        return obj && obj.constructor === Array;
+    }, 
+    
+    /**
+    get the length of object. return count of attribute if the object isn't array.
+    
+    return undefined if the object can't count length.
+    
+    @return boolean
+    */        
+    len: function(obj) {
+        if(typeof obj === 'string'){
+            return obj.length;
+        }else if(Lang.fn.isArray(obj)){
+            return obj.length;
+        }else if(typeof obj === 'object'){
+            var count = 0;
+            Lang.fn.each(obj, function(e){
+                count++;
+            });
+            return count;
+        }
+    },        
      
     /**
         To traversal the items of object by applying 'call_back' function. stoped
