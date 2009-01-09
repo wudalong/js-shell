@@ -28,14 +28,21 @@ db.driver('org.sqlite.JDBC');
 
 var conn = db.connect("jdbc:sqlite:test.db");
 
+conn.debug = true;
+
 print("conn:" + dir(conn));
+
+conn.insert("bug_traker", {bug_type:'JIRA', bug_id:'test', active:5});
+
+conn.insert("bug_traker", [{bug_type:'JIRA', bug_id:'test', active:5},
+                           {bug_type:'JIRA2', bug_id:'test2', active:5}]);
 
 var rs = conn.select("select * from bug_traker");
 
 var row = rs.row();
 print("row:" + dir(row));
 each(rs, function(r) {
-	print(r.bug_type + "," + r.track_id + "," + r.case_id);
+	print(r.bug_type + "," + r.track_id + "," + r.case_id + "," + r.active);
 });
 
 rs.close();

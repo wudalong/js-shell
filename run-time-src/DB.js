@@ -23,6 +23,10 @@
  
 
 var exports = ['connect', 'driver' ]
+var logger = __import__('Logging', null, {})
+
+logger.initConfig();
+logger = logger.getLogger("db");
 
 var sqlLib = JavaImporter();
 sqlLib.importPackage(Packages.java.sql);
@@ -53,6 +57,7 @@ function connect(url, user, password) {
 
 var Connection = extend(function(conn){
 	    this.o = conn;
+	    this.debug = false;
 	}, {
 	
 	/**
@@ -92,6 +97,8 @@ var Connection = extend(function(conn){
         @return ResultSet
     */
     select: function(sql, param){
+        this.debug && logger.debug("select sql:" + sql);
+        
         var w = formatSQL(sql, param);
         var pstm = this.o.prepareStatement(w.sql, 
                                            sqlLib.ResultSet.TYPE_FORWARD_ONLY,
@@ -102,16 +109,62 @@ var Connection = extend(function(conn){
         
         return new ResultSet(pstm, result);
     },
+	
+	/*
+        @return ResultSet
+    */
+    insert: function(table, data, fileds){
+        if(!isArray(data)) {
+            data = [data, ]
+        }
+        if(len(data) <= 0) return 0;
+        
+        //init insert fileds.
+        if(!(isArray(fileds) && len(fileds) > 0)){
+            var fileds = [];
+            each(data[0], function(e, k){fileds.push(k);});
+        }
+        
+        fileds_var = map("'$'+$", fileds);
+        
+		sql = "insert into " + table + "(" + fileds.join(',') + ")" +
+		      "values(" + fileds_var.join(',') + ")";
+		      
+		this.debug && logger.debug("insert sql:" + sql);
+ 		
+        var w = formatSQL(sql, data[0]);   
+        this.debug && logger.debug("formated sql:" + w.sql);
+                     
+        var pstm = this.o.prepareStatement(w.sql);
+        each(data, function(row, i) {
+            try{
+	            var w = formatSQL(sql, row);
+	            bindParameter(pstm, w.param);
+	            pstm.addBatch();
+	        }catch(e){
+	           throw "error row:" + i + ", msg:" + e;
+	        }
+        });
+        
+        var result = pstm.executeBatch();
+        pstm.close();
+        
+        this.debug && logger.debug("return:" + result.join(","));
+        return result;
+    },	
     
     /**
         execute a update sql, the named parameter is supported. 
     */    
     execute: function(sql, param){
+        this.debug && logger.debug("execute sql:" + sql);
+    
         var w = formatSQL(sql, param);
         var pstm = this.o.prepareStatement(w.sql);
         bindParameter(pstm, w.param);
         var result = pstm.executeUpdate();
         
+        this.debug && logger.debug("return:" + result);        
         return result;    
     },
     
@@ -161,6 +214,8 @@ var ResultSet = extend(ResultSet, {
                    return this.o.getDate(i);
                 }else if(t == dt.INTEGER || t == dt.FLOAT || t == dt.DOUBLE){
                    return this.o.getFloat(i);	                   
+                }else {
+                   return this.o.getString(i);
                 }
             });
         };
@@ -218,7 +273,7 @@ var ResultSet = extend(ResultSet, {
 */
 function formatSQL(sql, param) {
     var param_list = [];
-    formatSql = sql.replace(/\$([a-z,A-Z]\w+)/g,
+    formatSql = sql.replace(/\$([a-z,A-Z][\w_]+)/g,
 				function (s, name) {
 				    if(typeof param[name] == undefined){
 				       throw "Not found parameter name '" + name + "'";
@@ -238,6 +293,7 @@ function formatSQL(sql, param) {
 */
 function bindParameter(pstm, params) {
     each(params, function(p, i){
+        i++;
         t = typeof(p);
         if(t == 'string') {
             pstm.setString(i, p);

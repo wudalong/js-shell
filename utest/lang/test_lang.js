@@ -287,7 +287,33 @@ test({
         
         assertEqual(lang.cmp([1, 2 ,3], [1, 2, 3, 0]), -1)
         
-    },               
+    },   
+    
+    test_isarray: function(){
+        assertEqual(lang.isArray(), undefined)
+        assertEqual(lang.isArray([]), true)
+        assertEqual(lang.isArray({}), false)
+        assertEqual(lang.isArray(''), false)
+        assertEqual(lang.isArray(1), false)
+        assertEqual(lang.isArray(true), false)
+    },      
+    
+    test_len: function(){
+        assertEqual(lang.len([]), 0)
+        assertEqual(lang.len([1]), 1)
+        assertEqual(lang.len([1, 2]), 2)
+
+        assertEqual(lang.len({}), 0)
+        assertEqual(lang.len({a:'a'}), 1)
+        assertEqual(lang.len({a:'a', b:'b'}), 2)        
+
+        assertEqual(lang.len(""), 0)
+        assertEqual(lang.len("1"), 1)
+        assertEqual(lang.len("12"), 2)
+        
+        assertEqual(lang.len(0), undefined)
+        assertEqual(lang.len(true), undefined)        
+    },                   
 }); 
 
 // Lang.extend functional
