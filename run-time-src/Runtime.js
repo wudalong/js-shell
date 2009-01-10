@@ -32,7 +32,8 @@ if (!this.printerr){
     }
 }
 
+
 load(['Lang']);
 (new Lang()).__importToScopt__(this);
 
-//__import__('File')
+__import__('json');
