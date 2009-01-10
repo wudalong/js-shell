@@ -23,6 +23,7 @@
  
 
 var exports = ['connect', 'driver' ]
+
 var logger = __import__('Logging', null, {})
 
 logger.initConfig();
@@ -356,22 +357,22 @@ function bindParameter(pstm, params) {
     each(params, function(p, i){
         i++;
         t = typeof(p);
-        if(t == 'string') {
+        if(t === 'string') {
             pstm.setString(i, p);
-        }else if(t == 'number'){
+        }else if(t === 'number'){
             if(new java.lang.Integer(p) == p){
                 pstm.setFloat(i, p);
             }else {
                 pstm.setInt(i, p);
             }
-        }else if(t == 'object'){
+        }else if(t === 'object'){
             if(t.constructor == Date){
                 pstm.setDate(i, p);
             }else {
                 pstm.setObject(i, p);
             }
         }else {
-            throw "Not supported sql data type '" + t + "'"; 
+            throw "Not supported sql data type '" + t + "', data '" + p + "'"; 
         }
     });
 }

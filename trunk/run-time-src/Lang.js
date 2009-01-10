@@ -40,6 +40,7 @@ Lang.fn = Lang.prototype = {
               'grep', 'map', 'dir', '__import__',
               'cmp', 'min', 'max',
               'isArray', 'len',
+              'str'
              ],
 
     __importToScopt__: function(scope){
@@ -259,7 +260,23 @@ Lang.fn = Lang.prototype = {
             });
             return count;
         }
-    },        
+    },    
+    
+    
+    /**
+    convert object to JSON string.
+    
+    @return str
+    */        
+    str: function(obj) {
+        if(toJSONString){
+            return toJSONString(obj);
+        }else if(obj.toString){
+            return obj.toString.apply(obj);
+        }else {
+            return "" + obj;
+        }
+    },          
      
     /**
         To traversal the items of object by applying 'call_back' function. stoped
@@ -497,6 +514,8 @@ Lang.fn = Lang.prototype = {
            if(scope){
                //check new add global symbol by export.
                each(after_global, function(e){
+                   //don't know why the variable will occur.
+                   if(e === 'result') return;
                    if(grep(function(i){return i === e;}, before_global).length
                       ==0){
                        printerr("!!!Waring!!! '" + e + "' is exported to global" + 
