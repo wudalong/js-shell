@@ -27,12 +27,15 @@
 <li><a href='#close'>close()</a></li>
 <li><a href='#commit'>commit()</a></li>
 <li><a href='#execute'>execute(sql, param)</a></li>
+<li><a href='#insert'>insert(table, data, fileds)</a></li>
 <li><a href='#rollback'>rollback()</a></li>
 <li><a href='#select'>select(sql, param)</a></li>
+<li><a href='#select_list'>select_list(sql, param)</a></li>
 </ul>
 <li><a href='#cls_ResultSet'>ResultSet</a></li>
 <ul>
 <li><a href='#close'>close()</a></li>
+<li><a href='#fetch_rows'>fetch_rows()</a></li>
 <li><a href='#hasNext'>hasNext()</a></li>
 <li><a href='#next'>next()</a></li>
 <li><a href='#row'>row()</a></li>
@@ -117,6 +120,37 @@
 </div>
 <div class='fn'>
 <div class='fn_sign'>
+<span class='fn_name'>insert</span>
+(<span class='fn_arg'>table, data, fileds</span>)
+&nbsp;return list
+</div>
+<div class='ctext'>
+     insert a list or row to database;
+     
+ @param:table table name
+ @param:data a object or list
+ @param:fileds list of filed name. default is attribute list of inserting object.
+     
+    </div>
+<div class='example'><h4>Example:</h4>
+       <pre>
+        <code>
+    //insert one record
+    conn.insert('user', {name:'testuser', age:20}, ['name', 'age']);
+    
+    //insert one record, all atrriubite of object is saved.
+    conn.insert('user', {name:'testuser', age:20});
+    
+    //insert a list.
+    conn.insert('user', [{name:'testuser', age:20}, 
+                        {name:'testuser2', age:22}]);
+        </code>
+        </pre>       
+     
+    </div>
+</div>
+<div class='fn'>
+<div class='fn_sign'>
 <span class='fn_name'>rollback</span>
 (<span class='fn_arg'></span>)
 &nbsp;return none
@@ -156,6 +190,19 @@
         
     </div>
 </div>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>select_list</span>
+(<span class='fn_arg'>sql, param</span>)
+&nbsp;return Array
+</div>
+<div class='ctext'>
+        same with select function, it return an array of result, 
+        but not a ResultSet object.            
+        
+        
+    </div>
+</div>
 </div>
 </div>
 <div class='cls'><h3>Class ResultSet</h3>
@@ -173,6 +220,18 @@
 </div>
 <div class='ctext'>
         close
+    </div>
+</div>
+<div class='fn'>
+<div class='fn_sign'>
+<span class='fn_name'>fetch_rows</span>
+(<span class='fn_arg'></span>)
+&nbsp;return array. 
+</div>
+<div class='ctext'>
+        fetch all rows data.
+        
+        
     </div>
 </div>
 <div class='fn'>
@@ -202,7 +261,7 @@
 &nbsp;return none
 </div>
 <div class='ctext'>
-        row
+        row, return a object of current row.
     </div>
 </div>
 </div>
