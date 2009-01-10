@@ -109,9 +109,50 @@ var Connection = extend(function(conn){
         
         return new ResultSet(pstm, result);
     },
+    
+   /**
+        same with select function, it return an array of result, 
+        but not a ResultSet object.            
+        
+        @return Array
+    */    
+    select_list: function(sql, param){
+        var rs = this.select(sql, param);
+        
+        try{
+            var result = rs.fetch_rows();
+            rs.close();
+        }catch(e) {
+            rs.close();
+            throw e;
+        }
+        
+        
+        return result;
+    },    
 	
-	/*
-        @return ResultSet
+    /**
+     insert a list or row to database;
+     
+     * @param:table table name
+     * @param:data a object or list
+     * @param:fileds list of filed name. default is attribute list of inserting object.
+     
+    Example:
+       <pre>
+        <code>
+    //insert one record
+    conn.insert('user', {name:'testuser', age:20}, ['name', 'age']);
+    
+    //insert one record, all atrriubite of object is saved.
+    conn.insert('user', {name:'testuser', age:20});
+    
+    //insert a list.
+    conn.insert('user', [{name:'testuser', age:20}, 
+                        {name:'testuser2', age:22}]);
+        </code>
+        </pre>       
+     @return list
     */
     insert: function(table, data, fileds){
         if(!isArray(data)) {
@@ -247,10 +288,30 @@ var ResultSet = extend(ResultSet, {
     },
     
     /**
-        row
+        row, return a object of current row.
     */     
     row: function(){
         return this.dataWrapper;
+    },
+    
+    /**
+        fetch all rows data.
+        
+        @return array. 
+    */
+    fetch_rows: function() {
+        var rows = [];
+		each(this, function(row) {
+		    var co_row = {}
+		    each(row, function(value, field){
+		      if(field === 'o') return;
+		      co_row[field] = value;
+		    });
+		    
+		    rows.push(co_row);
+		});
+		
+		return rows;       
     },
     
     /**
